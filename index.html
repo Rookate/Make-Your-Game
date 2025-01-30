@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Invader</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <div id="fpsDisplay"></div>
+    <div id="background"></div>
+    <div id="gameContainer">
+        <div id="player"></div>
+        <div id="enemies"></div>
+
+        <div id="endMessage" class="end-message">
+            <div id="endMessageText" class="end-message-text"></div>
+            <div id="endButton">
+                <button id="restartButton" class="restart-button">Replay</button>
+                <button id="menu-button">Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./js/game.js"></script>
+</body>
+
+</html>
