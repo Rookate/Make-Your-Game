@@ -7,6 +7,9 @@ let currentProjectileRate = GAME_CONFIG.DIFFICULTY.projectileRate; // Suivi du t
 
 export function waveManagement() {
     if (window.gameState.endGame) return;
+    const bullets = document.querySelectorAll('.bullet')
+    bullets.forEach(bullet => bullet.remove())
+
 
     window.gameState.waveTransition = true;
     window.gameState.wave++;
