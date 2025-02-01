@@ -31,3 +31,27 @@ export function updateLivesDisplay() {
 export function updateScoreDisplay() {
     document.getElementById('scoreDisplay').textContent = `Score : ${window.gameState.score}`;
 }
+
+export function createProjectileElement(damage) {
+    const projectile = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    projectile.setAttribute("width", "10");
+    projectile.setAttribute("height", "30");
+    projectile.setAttribute("viewBox", "0 0 10 30");
+    projectile.classList.add("bullet");
+
+    const colors = {
+        1: "red",     // Dégâts de base
+        2: "yellow",  // Boost 1
+        3: "blue",  // Boost 2
+    };
+
+    const color = colors[damage] || "white";
+
+    projectile.innerHTML = `
+        <rect x="3" y="0" width="4" height="30" fill="${color}" />
+        <rect x="2" y="5" width="6" height="20" fill="${color}" />
+        <rect x="1" y="10" width="8" height="10" fill="${color}" />
+    `;
+
+    return projectile;
+}
