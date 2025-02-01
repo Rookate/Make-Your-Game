@@ -1,54 +1,55 @@
-import { GAME_CONFIG } from './game-constants.js';
-import { throttle } from './utils.js';
+// player.js
 import { createProjectile } from './projectiles.js';
 
-export let playerMovementId;
-export let playerDirection = 0;
-let playerX;
-const player = document.getElementById('player');
-const gameContainer = document.getElementById('gameContainer');
-
-export function initializePlayer() {
-    playerX = gameContainer.offsetWidth / 2;
-    player.style.left = `${playerX}px`;
-}
-
-export function playerMovement() {
-    if (window.gameState.endGame || window.gameState.isPaused) return;
-
-    if (playerDirection !== 0) {
-        playerX += playerDirection * GAME_CONFIG.PLAYER.SPEED; // Utilisation de GAME_CONFIG
-        if (playerX < 0) playerX = 0;
-        if (playerX > gameContainer.offsetWidth - player.offsetWidth) {
-            playerX = gameContainer.offsetWidth - player.offsetWidth;
-        }
-        player.style.left = `${playerX}px`;
+export class Player {
+    constructor(x, y, speed, fireRate) {
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.damage = 1;
+        this.fireRate = fireRate;
+        this.lives = 3;
+        this.element = this.createPlayerElement();
+        this.direction = 0;  // -1 pour gauche, 1 pour droite
     }
 
-    playerMovementId = requestAnimationFrame(playerMovement);
-}
+    // Crée l'élément HTML du joueur
+    createPlayerElement() {
+        const playerElement = document.createElement('div');
+        playerElement.id = 'player';
+        playerElement.classList.add('player');
+        document.getElementById('gameContainer').appendChild(playerElement);
+        return playerElement;
+    }
 
-function shootProjectile() {
-    if (window.gameState.endGame) return;
-    createProjectile();
-}
+    // Met à jour la position du joueur
+    updatePosition() {
+        this.element.style.left = `${this.x}px`;
+    }
 
-// Correction : Utilisation de GAME_CONFIG pour le temps entre tirs
-const throttledShootProjectile = throttle(shootProjectile, GAME_CONFIG.PLAYER.FIRE_RATE);
+    // Déplace le joueur
+    move() {
+        if (this.direction !== 0) {
+            this.x += this.direction * this.speed;
+            if (this.x < 0) this.x = 0;
+            if (this.x > gameContainer.offsetWidth - this.element.offsetWidth) {
+                this.x = gameContainer.offsetWidth - this.element.offsetWidth;
+            }
+            this.updatePosition();
+        }
+    }
 
-export function setupPlayerControls() {
-    const keyDownHandler = (e) => {
-        if (e.key === 'ArrowLeft') playerDirection = -1;
-        else if (e.key === 'ArrowRight') playerDirection = 1;
-        else if (e.key === ' ') throttledShootProjectile();
-    };
+    // Permet au joueur de tirer
+    shoot() {
+        createProjectile();
+    }
 
-    const keyUpHandler = (e) => {
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') playerDirection = 0;
-    };
+    increaseDamage() {
+        if (this.damage >= 3) return
+        this.damage += 1;
 
-    document.addEventListener('keydown', keyDownHandler);
-    document.addEventListener('keyup', keyUpHandler);
-
-    return { keyDownHandler, keyUpHandler };
+        // setTimeout(() => {
+        //     this.damage = Math.max(1, this.damage - 1); // Réduction après 10s
+        // }, 10000);
+    }
 }
