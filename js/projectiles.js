@@ -1,5 +1,6 @@
 import { GAME_CONFIG } from './game-constants.js';
 import { checkCollision, checkPlayerCollision } from './collision.js';
+import { createProjectileElement } from './ui.js';
 
 window.projectiles = {
     player: [],
@@ -7,19 +8,24 @@ window.projectiles = {
 };
 
 const gameContainer = document.getElementById('gameContainer');
-const player = document.getElementById('player');
 
+// projectiles.js
 export function createProjectile() {
     if (window.gameState.endGame || window.gameState.isPaused) return;
 
-    const projectile = document.createElement('div');
-    projectile.classList.add('bullet');
+    // Création du projectile
+    const projectile = createProjectileElement(window.player.damage);
 
-    const playerRect = player.getBoundingClientRect();
-    const gameRect = gameContainer.getBoundingClientRect();
+    // Utilisation de l'instance du joueur pour obtenir les coordonnées
+    const startLeft = window.player.x;
+    const startTop = window.player.y - 20;  // Juste au-dessus du joueur
 
-    projectile.style.left = `${playerRect.left + playerRect.width / 2 - gameRect.left}px`;
-    projectile.style.top = `${playerRect.top - gameRect.top}px`;
+    // Initialiser les positions
+    projectile.style.left = `${startLeft}px`;
+    projectile.style.top = `${startTop}px`;
+
+    // Stocker la position initiale dans dataset
+    projectile.dataset.top = startTop;
 
     gameContainer.appendChild(projectile);
     window.projectiles.player.push(projectile);
@@ -34,14 +40,27 @@ export function moveProjectile(projectile) {
         if (window.gameState.endGame || window.gameState.isPaused) return;
         if (!document.contains(projectile)) return;
 
-        const currentTop = parseInt(projectile.style.top, 10);
+        // Utiliser la valeur stockée dans dataset ou parseInt du style
+        let currentTop = parseFloat(projectile.dataset.top) || parseFloat(projectile.style.top);
+
         if (currentTop <= 0) {
             projectile.remove();
+            const index = window.projectiles.player.indexOf(projectile);
+            if (index > -1) {
+                window.projectiles.player.splice(index, 1);
+            }
             return;
         }
 
+        // Calculer la nouvelle position
+        let newTop = currentTop - window.player.speed;
+
+        // Mettre à jour la position stockée et le style
+        projectile.dataset.top = newTop;
+        projectile.style.top = `${newTop}px`;
+
         checkCollision(projectile);
-        projectile.style.top = `${currentTop - GAME_CONFIG.PROJECTILE.SPEED}px`;
+
         requestAnimationFrame(update);
     }
 
