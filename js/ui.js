@@ -10,3 +10,24 @@ export function displayEndMessage(message) {
         location.reload();
     });
 }
+
+export function displayWaveMessage(message) {
+    const waveMessage = document.getElementById("waveMessage");
+    const wave = document.getElementById('wave');
+    wave.textContent = message;
+    waveMessage.textContent = message;
+    waveMessage.style.display = "block";
+
+    setTimeout(() => {
+        waveMessage.style.display = "none";
+    }, 4500);
+}
+
+
+export function updateLivesDisplay() {
+    document.getElementById("livesDisplay").textContent = `❤️ x ${window.gameState.lives}`;
+}
+
+export function updateScoreDisplay() {
+    document.getElementById('scoreDisplay').textContent = `Score : ${window.gameState.score}`;
+}

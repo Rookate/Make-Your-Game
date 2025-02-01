@@ -1,11 +1,10 @@
-import { GAME_CONSTANTS } from './game-constants.js';
+import { GAME_CONFIG } from './game-constants.js';
 import { throttle } from './utils.js';
 import { createProjectile } from './projectiles.js';
 
 export let playerMovementId;
 export let playerDirection = 0;
 let playerX;
-let shootTimer = 0;
 const player = document.getElementById('player');
 const gameContainer = document.getElementById('gameContainer');
 
@@ -18,7 +17,7 @@ export function playerMovement() {
     if (window.gameState.endGame || window.gameState.isPaused) return;
 
     if (playerDirection !== 0) {
-        playerX += playerDirection * GAME_CONSTANTS.PLAYER_SPEED;
+        playerX += playerDirection * GAME_CONFIG.PLAYER.SPEED; // Utilisation de GAME_CONFIG
         if (playerX < 0) playerX = 0;
         if (playerX > gameContainer.offsetWidth - player.offsetWidth) {
             playerX = gameContainer.offsetWidth - player.offsetWidth;
@@ -34,7 +33,8 @@ function shootProjectile() {
     createProjectile();
 }
 
-const throttledShootProjectile = throttle(shootProjectile, shootTimer);
+// Correction : Utilisation de GAME_CONFIG pour le temps entre tirs
+const throttledShootProjectile = throttle(shootProjectile, GAME_CONFIG.PLAYER.FIRE_RATE);
 
 export function setupPlayerControls() {
     const keyDownHandler = (e) => {

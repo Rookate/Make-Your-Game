@@ -13,7 +13,7 @@ let lastTime = performance.now();
 let frameCount = 0;
 let fpsDisplay = document.createElement("div");
 fpsDisplay.style.position = "absolute";
-fpsDisplay.style.top = "20px";
+fpsDisplay.style.bottom = "20px";
 fpsDisplay.style.left = "20px";
 fpsDisplay.style.color = "white";
 document.body.appendChild(fpsDisplay);
