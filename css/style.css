@@ -67,6 +67,39 @@ body {
     transform: translateX(-50%);
 }
 
+.bonus {
+    height: 30px;
+    width: 30px;
+    padding-top: 8px;
+    padding-left: 2px;
+    bottom: 20px;
+    left: 40%;
+    color: black;
+    text-align: center;
+    justify-self: center;
+    background: radial-gradient(circle, rgb(255, 191, 0), red);
+    border-radius: 50%;
+    position: absolute;
+    animation: blink 1s infinite, shine 2s infinite;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 12px rgba(255, 255, 0, 0.5);
+    /* Ombre lumineuse plus compacte */
+}
+
+@keyframes shine {
+    0% {
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 12px rgba(255, 255, 0, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.8), 0 0 18px rgba(255, 255, 0, 0.6);
+        /* Brillance plus subtile */
+    }
+
+    100% {
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 12px rgba(255, 255, 0, 0.5);
+    }
+}
+
 #enemies {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -88,9 +121,6 @@ body {
     width: 10px;
     height: 30px;
     position: absolute;
-    background-image: url("./playerBullet.svg");
-    background-size: contain;
-    background-repeat: no-repeat;
 }
 
 .enemy-bullet {
@@ -187,4 +217,33 @@ body {
     font-weight: bold;
     color: white;
     display: none;
+}
+
+@keyframes explosion {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+        background-color: yellow;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 0.8;
+        background-color: orange;
+    }
+
+    100% {
+        transform: scale(0);
+        opacity: 0;
+        background-color: red;
+    }
+}
+
+.explosion {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: yellow;
+    animation: explosion 0.5s forwards;
 }
