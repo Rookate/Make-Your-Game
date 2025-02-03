@@ -4,8 +4,10 @@ class Bullet {
     this.x = x;
     this.y = y;
     this.speed = 5; // Vitesse de la balle
-
-    // Créer l'élément de la balle
+    this.bullet();
+  }
+  // Créer l'élément de la balle
+  bullet() {
     this.element = document.createElement("div");
     this.element.classList.add("bullet");
     this.element.style.left = `${this.x}px`;
