@@ -1,15 +1,18 @@
 class Player {
-  constructor(elementId, speed) {
-    // Récupérer l'élément du joueur et définir les dimensions
-    this.player = document.getElementById(elementId);
+  constructor(player, container, speed) {
+    // Récupérer l'élément du joueur et le conteneur
+    this.player = document.getElementById("player");
+    this.container = document.getElementById("container");
+
+    // Définir les dimensions du joueur et du conteneur
     this.playerWidth = this.player.offsetWidth;
-    this.screenWidth = window.innerWidth;
+    this.containerWidth = this.container.offsetWidth;
 
     // Vitesse de déplacement
     this.speed = speed;
 
-    // Position initiale du joueur (centré horizontalement)
-    this.x = this.screenWidth / 2 - this.playerWidth / 2;
+    // Position initiale du joueur (centré horizontalement dans le conteneur)
+    this.x = this.containerWidth / 2;
     this.player.style.left = `${this.x}px`;
 
     // Variables pour gérer le mouvement fluide
@@ -30,7 +33,7 @@ class Player {
 
   // Fonction pour déplacer le joueur à droite
   moveRight() {
-    if (this.x + this.playerWidth < this.screenWidth) {
+    if (this.x + this.playerWidth < this.containerWidth) {
       this.x += this.speed;
       this.updatePosition();
     }
@@ -76,4 +79,4 @@ class Player {
 }
 
 // Créer une instance de la classe Player
-const player = new Player("player", 5);
+const player = new Player("player", "container", 5);
