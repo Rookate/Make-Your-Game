@@ -1,4 +1,4 @@
-class Player {
+export class Player {
   constructor(player, container, speed) {
     // Récupérer l'élément du joueur et le conteneur
     this.player = document.getElementById("player");
@@ -25,7 +25,7 @@ class Player {
 
   // Fonction pour déplacer le joueur à gauche
   moveLeft() {
-    if (this.x > 0) {
+    if (this.x > 50) {
       this.x -= this.speed;
       this.updatePosition();
     }
@@ -74,9 +74,6 @@ class Player {
       } else if (this.isMovingRight) {
         this.moveRight();
       }
-    }, 16); // 16ms pour un mouvement fluide (environ 60fps)
+    }, 10); // 16ms pour un mouvement fluide (environ 60fps)
   }
 }
-
-// Créer une instance de la classe Player
-const player = new Player("player", "container", 5);

@@ -1,7 +1,9 @@
+import { Player } from "./player.js";
+
 class Game {
   constructor() {
-    this.container = ".game-container";
-    this.player = new Player(this.container);
+    this.container = document.getElementById("container");
+    this.player = new Player("player", "container", 5);
   }
 
   start() {
