@@ -25,7 +25,7 @@ export function displayWaveMessage(message) {
 
 
 export function updateLivesDisplay() {
-    document.getElementById("livesDisplay").textContent = `❤️ x ${window.gameState.lives}`;
+    document.getElementById("livesDisplay").textContent = `❤️ x ${window.gameState.player.lives}`;
 }
 
 export function updateScoreDisplay() {
@@ -54,4 +54,17 @@ export function createProjectileElement(damage) {
     `;
 
     return projectile;
+}
+
+export function displayBonus(x, y, type) {
+    const msg = document.createElement('div');
+    msg.classList.add('bonus-msg');
+    msg.textContent = type;
+    msg.style.top = `${y}px`;
+    msg.style.left = `${x}px`;
+
+    const gameContainer = document.getElementById('gameContainer');
+    gameContainer.appendChild(msg)
+
+    return msg
 }
