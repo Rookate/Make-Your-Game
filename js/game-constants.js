@@ -19,6 +19,7 @@ export const GAME_CONFIG = {
         SPECIAL_START_WAVE: 10,
         SPECIAL_HEALTH: 3,
         FIRE_RATE: 1000,
+        DAMAGE: 1,
     },
     DIFFICULTY: {
         minProjectileRate: 100, // Limite minimale
