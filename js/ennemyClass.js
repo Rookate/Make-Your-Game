@@ -1,7 +1,7 @@
 import { Bonus } from "./bonus.js";
-import { activeBonuses } from "./collision.js";
-import { enemies } from "./enemies.js";
-import { updateLivesDisplay } from "./ui.js";
+import { GAME_CONFIG } from "./game-constants.js";
+import { EnemyProjectile } from "./projectilesClass.js";
+import { updateLivesDisplay, updateScoreDisplay } from "./ui.js";
 
 export class Enemy {
     constructor(x, y, health, isSpecial = false) {
@@ -39,20 +39,8 @@ export class Enemy {
         this.updatePosition();
     }
 
-    // Une idée pour un potentiel boss
-    // split() {
-    //     if (this.health <= 0) {
-    //         // Créer deux nouveaux ennemis avec des positions et caractéristiques modifiées
-    //         const newEnemy1 = new Enemy(this.x - 10, this.y, this.health / 2);
-    //         const newEnemy2 = new Enemy(this.x + 10, this.y, this.health / 2);
-
-    //         // Ajouter les nouveaux ennemis à la liste
-    //         enemies.push(newEnemy1, newEnemy2);
-    //     }
-    // }
-
     takeDamage() {
-        this.health -= window.player.damage;
+        this.health -= window.gameState.player.damage;
         this.element.dataset.health = this.health;
 
         if (this.health <= 0) {
@@ -64,15 +52,10 @@ export class Enemy {
     }
 
     destroy() {
+        this.addPoints();
         this.element.enemyInstance = null;
         this.createExplosion();
         this.element.remove();
-
-        const index = enemies.indexOf(this);
-        if (index > -1) {
-            enemies.splice(index, 1);
-        }
-
         // Ne pas donner de bonus avant la vague 3
         if (window.gameState.wave < 3) {
             return;
@@ -84,6 +67,16 @@ export class Enemy {
         if (Math.random() < waveDropRate) {
             this.spawnBonus();
         }
+    }
+
+    addPoints() {
+        const enemyRect = this.element.getBoundingClientRect();
+        let points = GAME_CONFIG.SCORES.LOW_ROW;
+        if (enemyRect.top < 200) points = GAME_CONFIG.SCORES.HIGH_ROW;
+        else if (enemyRect.top < 400) points = GAME_CONFIG.SCORES.MID_ROW;
+
+        window.gameState.score += points;
+        updateScoreDisplay();
     }
 
 
@@ -108,21 +101,33 @@ export class Enemy {
     }
 
     spawnBonus() {
-        const types = ["damage"];
+        const types = ["damage", "spread", "lives"];
         const randomType = types[Math.floor(Math.random() * types.length)];
 
         const bonus = new Bonus(this.x, this.y, randomType);
-        activeBonuses.push(bonus);
+        window.gameState.activeBonuses.push(bonus);
+    }
+
+    shoot() {
+        if (window.gameState.currentState !== "PLAYING") return;
+
+        const enemyRect = this.element.getBoundingClientRect();
+        const gameRect = document.getElementById('gameContainer').getBoundingClientRect();
+
+        const projectileX = enemyRect.left + enemyRect.width / 2 - gameRect.left;
+        const projectileY = enemyRect.top + enemyRect.height - gameRect.top;
+
+        const projectile = new EnemyProjectile(projectileX, projectileY, GAME_CONFIG.PROJECTILE.SPEED, GAME_CONFIG.ENEMIES.DAMAGE);
+        window.gameState.projectiles.enemies.push(projectile);
     }
 }
 
 export class KamikazeEnemy extends Enemy {
     constructor(x, y, health, isSpecial = false) {
-        super(x, y, health, isSpecial);  // Appelle le constructeur de la classe Enemy
-        this.speed = 5;  // Vitesse à ajuster
+        super(x, y, health, isSpecial);
+        this.speed = 5;
     }
 
-    // Met à jour la position de l'ennemi pour le faire foncer vers le joueur
     moveTowardsPlayer(playerX, playerY) {
         const angle = Math.atan2(playerY - this.y, playerX - this.x);
         const dx = Math.cos(angle) * this.speed;
@@ -130,32 +135,13 @@ export class KamikazeEnemy extends Enemy {
         this.move(dx, dy);
     }
 
-    // Explosion lors du contact avec le joueur
-    checkCollisionWithPlayer(player) {
-        const kamikazeX = Math.round(this.x);
-        const kamikazeY = Math.round(this.y);
-
-        // Calculer la distance entre le kamikaze et le centre du joueur
-        const playerRadius = player.element.offsetWidth / 2;  // Rayon du joueur (60px / 2 = 30px)
-        const distance = Math.sqrt(Math.pow(kamikazeX - player.x, 2) + Math.pow(kamikazeY - player.y, 2));
-
-        // Si la distance entre le kamikaze et le joueur est inférieure ou égale au rayon du joueur, on considère qu'il y a une collision
-        if (distance <= playerRadius) {
-            this.explode();
-        }
-    }
-
-    // Explose l'ennemi et inflige des dégâts au joueur
     explode() {
-        window.gameState.lives--  // Enlève 1 PV au joueur
+        window.gameState.player.lives--; // Enlève 1 PV au joueur
         updateLivesDisplay();
         this.destroy();  // Détruit l'ennemi kamikaze
     }
 
-    // Ajoute une méthode de mise à jour spécifique pour l'ennemi kamikaze
     update(player) {
         this.moveTowardsPlayer(player.x, player.y);
-        this.checkCollisionWithPlayer(player);
     }
 }
-
