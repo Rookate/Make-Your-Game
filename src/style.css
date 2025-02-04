@@ -1,0 +1,49 @@
+/* Styles de base */
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center; /* Centre le gamebox horizontalement */
+  align-items: center; /* Centre le gamebox verticalement */
+  height: 100vh;
+  background-color: black; /* Fond noir */
+  overflow: hidden;
+}
+
+/* Conteneur du jeu */
+#gamebox {
+  background-image: url("fond.jpg"); /* Image de fond */
+  background-size: auto;
+  background-position: center;
+  border: 5px solid beige;
+  width: 700px;
+  height: 400px; /* Hauteur fixe pour le jeu */
+  position: relative;
+  overflow: hidden; /* Empêche les éléments de sortir */
+}
+
+/* Joueur */
+#player {
+  position: absolute;
+  bottom: 0px; /* Toujours en bas */
+  left: 50%; /* Centré horizontalement */
+  transform: translateX(-50%); /* Ajuste le centrage */
+  width: 50px;
+  height: 50px;
+  background-image: url("./sasha.png"); /* Image du joueur */
+  background-size: cover;
+}
+.enemy {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: red;
+}
+
+.bullet {
+  width: 5px;
+  height: 15px;
+  background-color: rgb(0, 255, 225);
+  position: absolute;
+  z-index: 1;
+  /* Assurez-vous que la balle est au-dessus des autres éléments */
+}

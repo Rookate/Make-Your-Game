@@ -8,13 +8,13 @@ export class Bullet {
   }
   // Créer l'élément de la balle
   bullet() {
-    const bullet = document.createElement('div');
-    bullet.classList.add('bullet');
+    const bullet = document.createElement("div");
+    bullet.classList.add("bullet");
     bullet.style.left = `${this.x}px`;
     bullet.style.top = `${this.y}px`;
 
     this.container.appendChild(bullet); // Ajouter la balle au conteneur
-    return bullet
+    return bullet;
   }
 
   // Déplacer la balle vers le haut

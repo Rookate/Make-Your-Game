@@ -21,7 +21,7 @@ export class Player {
   }
 
   moveRight() {
-    if (this.x < 360) {
+    if (this.x < 670) {
       this.x += this.speed;
       this.updatePosition();
     }
