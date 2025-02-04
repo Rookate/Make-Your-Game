@@ -11,7 +11,7 @@ body {
 
 /* Conteneur du jeu */
 #game-container {
-  background-image: url("/Make-Your-Game/assets/fond.jpg"); /* Image de fond */
+  background-image: url("../assets/fond.jpg"); /* Image de fond */
   background-size: auto;
   background-position: center;
   border: 5px solid beige;
@@ -29,7 +29,7 @@ body {
   transform: translateX(-50%); /* Ajuste le centrage */
   width: 50px;
   height: 50px;
-  background-image: url("/Make-Your-Game/assets/sasha.png"); /* Image du joueur */
+  background-image: url("../assets/sasha.png"); /* Image du joueur */
   background-size: cover;
 }
 
@@ -37,14 +37,14 @@ body {
   position: absolute;
   width: 50px;
   height: 50px;
-  background-image: url("/Make-Your-Game/assets/pika.png");
+  background-image: url("../assets/pika.png");
   background-size: cover;
 }
 
 .bullet {
   width: 15px;
   height: 15px;
-  background-image: url("/Make-Your-Game/assets/pokeball.png");
+  background-image: url("../assets/pokeball.png");
   background-size: cover;
   position: absolute;
   z-index: 1;
