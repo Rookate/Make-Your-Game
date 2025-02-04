@@ -1,3 +1,5 @@
+import { displayBonus } from "./ui.js";
+
 export class Bonus {
     constructor(x, y, type) {
         this.x = x;
@@ -23,23 +25,6 @@ export class Bonus {
         this.element.style.top = `${this.y}px`;
     }
 
-    checkCollisionWithProjectile(projectile, player) {
-        const projectileRect = projectile.getBoundingClientRect();
-        const bonusRect = this.element.getBoundingClientRect();
-
-        if (
-            bonusRect.left < projectileRect.right &&
-            bonusRect.right > projectileRect.left &&
-            bonusRect.top < projectileRect.bottom &&
-            bonusRect.bottom > projectileRect.top
-        ) {
-            this.applyBonus(player);
-            this.destroy();
-            return true
-        }
-        return false
-    }
-
     applyBonus(player) {
         switch (this.type) {
             case 'damage':
@@ -54,10 +39,18 @@ export class Bonus {
             case 'speed':
                 player.increaseShootingSpeed();
                 break;
+            case "lives":
+                player.powerUp();
+                break;
         }
     }
 
     destroy() {
         this.element.remove();
+        const msg = displayBonus(this.x, this.y, this.type);
+
+        setTimeout(() => {
+            msg.remove()
+        }, 400)
     }
 }
