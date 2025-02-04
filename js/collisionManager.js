@@ -54,10 +54,8 @@ export class CollisionManager {
     checkKamikazeEnemies() {
         this.gameState.enemies.forEach((enemy, eIndex) => {
             if (enemy instanceof KamikazeEnemy && this.isColliding(enemy, this.gameState.player)) {
-                this.gameState.player.lives--;
-                enemy.destroy();
+                enemy.explode();
                 this.gameState.enemies.splice(eIndex, 1);
-
                 if (this.gameState.player.lives <= 0) {
                     this.gameState.endGame = true;
                 }
