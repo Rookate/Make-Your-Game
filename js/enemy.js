@@ -1,26 +1,30 @@
-class Enemy {
-  constructor(container, x, y) {
-    this.x = x; // Position horizontale initiale
-    this.y = y; // Position verticale initiale
-    this.speed = 2;
-  }
-  createElement() {
-    this.container = container;
-    this.element = document.createElement("div");
-    this.element.classList.add("enemy");
+export class Enemy {
+  constructor(gamebox, width, height, speed, imageSrc) {
+    this.element = document.getElementById("enemy");
+    this.width = width;
+    this.height = height;
+    this.speed = speed;
+
+    // Positionner l'ennemi aléatoirement en haut du element
+    this.x = Math.random() * (this.element.clientWidth - this.width);
+    this.y = -this.height; // Commence juste au-dessus de element
+
+    // Créer dynamiquement l'élément HTML pour l'ennemi
+    this.element.style.width = `${this.width}px`;
+    this.element.style.height = `${this.height}px`;
+    this.element.style.position = "absolute";
     this.element.style.left = `${this.x}px`;
     this.element.style.top = `${this.y}px`;
-    container.appendChild(this.element);
-  }
-  move(dx, dy) {
-    this.x += dx;
-    this.y += dy;
+    this.element.style.backgroundImage = `url(${imageSrc})`;
+    this.element.style.backgroundSize = "cover";
 
-    this.element.style.left = `${this.x}px`;
+    // Ajouter l'ennemi à element
+    this.game - container.appendChild(this.element);
+  }
+
+  // Déplacement de l'ennemi vers le bas
+  move() {
+    this.y += this.speed;
     this.element.style.top = `${this.y}px`;
-  }
-
-  remove() {
-    this.element.remove();
   }
 }

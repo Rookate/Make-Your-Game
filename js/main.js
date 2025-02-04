@@ -1,3 +1,4 @@
+import { Enemy } from "./enemy.js";
 import { Player } from "./player.js";
 
 class Game {
@@ -10,13 +11,13 @@ class Game {
         enemies: [],
         player: []
       }
-    }
+    };
     this.init();
   }
 
   init() {
-    this.update()
-    this.initializePlayer()
+    this.update();
+    this.initializePlayer();
     window.gameState = this.state;
   }
 
@@ -24,15 +25,38 @@ class Game {
     const startX = this.state.container.offsetWidth / 2;
     const startY = this.state.container.offsetHeight - 50;
 
-    this.state.player = new Player(this.state.container, startX, startY)
+    this.state.player = new Player(this.state.container, startX, startY);
+  }
+  spawnEnemies() {
+    setInterval(() => {
+      const enemy = new Enemy(
+        this.state.container,
+        40,
+        40,
+        3,
+        "./assets/pika.png"
+      );
+      this.state.enemies.push(enemy);
+    }, 2000); // Un ennemi toutes les 2 secondes
   }
 
   update() {
-    this.moveProjectiles()
+    this.moveProjectiles();
+    // this.moveEnemies();
 
-    requestAnimationFrame(() => this.update())
+    requestAnimationFrame(() => this.update());
   }
+  moveEnemies() {
+    this.state.enemies.forEach((enemy, index) => {
+      enemy.move();
 
+      // Supprimer l'ennemi s'il sort de l'écran
+      if (enemy.y > this.state.container.offsetHeight) {
+        enemy.element.remove();
+        this.state.enemies.splice(index, 1);
+      }
+    });
+  }
   moveProjectiles() {
     // Déplacer les tirs ennemis
     this.state.projectiles.enemies.forEach((projectile, index) => {
@@ -55,7 +79,7 @@ class Game {
     console.log("Le jeu commence !");
   }
 }
-document.addEventListener('DOMContentLoaded', () => {
-  const game = new Game()
-  game.init()
-})
+document.addEventListener("DOMContentLoaded", () => {
+  const game = new Game();
+  game.init();
+});
