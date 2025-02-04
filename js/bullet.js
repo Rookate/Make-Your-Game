@@ -1,19 +1,20 @@
-class Bullet {
+export class Bullet {
   constructor(container, x, y) {
     this.container = container;
     this.x = x;
     this.y = y;
     this.speed = 5; // Vitesse de la balle
-    this.bullet();
+    this.element = this.bullet();
   }
   // Créer l'élément de la balle
   bullet() {
-    this.element = document.createElement("div");
-    this.element.classList.add("bullet");
-    this.element.style.left = `${this.x}px`;
-    this.element.style.top = `${this.y}px`;
+    const bullet = document.createElement('div');
+    bullet.classList.add('bullet');
+    bullet.style.left = `${this.x}px`;
+    bullet.style.top = `${this.y}px`;
 
-    this.container.appendChild(this.element); // Ajouter la balle au conteneur
+    this.container.appendChild(bullet); // Ajouter la balle au conteneur
+    return bullet
   }
 
   // Déplacer la balle vers le haut
@@ -31,9 +32,6 @@ class Bullet {
 
   // Supprimer la balle du DOM
   remove() {
-    if (this.element) {
-      this.container.removeChild(this.element); // Retirer l'élément du DOM
-      this.element = null; // Libérer la référence à l'élément pour éviter des erreurs
-    }
+    this.element.remove();
   }
 }

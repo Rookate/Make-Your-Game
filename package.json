@@ -1,0 +1,52 @@
+{
+  "name": "space-invaders",
+  "version": "1.0.0",
+  "description": "Space Invaders Game",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "build": {
+    "appId": "com.your.spaceinvaders",
+    "productName": "Space Invaders",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "css/**/*",
+      "js/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "./css/logo.png",
+      "publish": null,
+      "artifactName": "space-invaders-setup-${version}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "mac": {
+      "target": [
+        "zip"
+      ],
+      "identity": null
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3"
+  }
+}

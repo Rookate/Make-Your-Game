@@ -1,9 +1,11 @@
-class Player {
-  constructor(container) {
+import { Bullet } from "./bullet.js";
+
+export class Player {
+  constructor(container, x, y) {
     this.container = container;
     this.element = document.getElementById("player");
-    this.x = 180;
-    this.y = 450; // Position de départ du joueur
+    this.x = x;
+    this.y = y; // Position de départ du joueur
     this.speed = 5;
     this.keys = { left: false, right: false }; // Stocke les touches pressées
     this.bullets = []; // Tableau des balles
@@ -39,8 +41,8 @@ class Player {
   // Fonction pour tirer
   shoot() {
     // Créer une balle à la position du joueur (juste au-dessus du joueur)
-    const bullet = new Bullet(this.container, this.x + 15, this.y); // Position ajustée pour être juste au-dessus du joueur
-    this.bullets.push(bullet);
+    const bullet = new Bullet(this.container, this.x, this.y); // Position ajustée pour être juste au-dessus du joueur
+    window.gameState.projectiles.player.push(bullet);
   }
 
   // Initialiser les contrôles
