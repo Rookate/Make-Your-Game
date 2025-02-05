@@ -5,7 +5,7 @@ body {
   justify-content: center; /* Centre le gamebox horizontalement */
   align-items: center; /* Centre le gamebox verticalement */
   height: 100vh;
-  background-color: black; /* Fond noir */
+  background-color: rgb(231, 162, 162); /* Fond noir */
   overflow: hidden;
 }
 
@@ -33,20 +33,30 @@ body {
   background-size: cover;
 }
 
-#enemy {
+/* Conteneur des ennemis */
+#enemies-container {
   position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px; /* Espacement entre les ennemis */
+}
+
+/* Ennemis */
+.enemy {
   width: 50px;
   height: 50px;
   background-image: url("../assets/pika.png");
   background-size: cover;
 }
 
+/* Projectile */
 .bullet {
   width: 15px;
   height: 15px;
   background-image: url("../assets/pokeball.png");
   background-size: cover;
   position: absolute;
-  z-index: 1;
-  /* Assurez-vous que la balle est au-dessus des autres éléments */
+  z-index: 1; /* Assurez-vous que la balle est au-dessus des autres éléments */
 }

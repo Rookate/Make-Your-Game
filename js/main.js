@@ -1,5 +1,5 @@
-import { Enemy } from "./enemy.js";
 import { Player } from "./player.js";
+import { EnemyManager } from "./enemy.js";
 
 class Game {
   constructor() {
@@ -81,5 +81,12 @@ class Game {
 }
 document.addEventListener("DOMContentLoaded", () => {
   const game = new Game();
+  const gameContainer = document.getElementById("game-container");
+  if (gameContainer) {
+    const enemyManager = new EnemyManager(gameContainer);
+    enemyManager.moveEnemies();
+  } else {
+    console.error("game-container non trouvé !");
+  }
   game.init();
 });
