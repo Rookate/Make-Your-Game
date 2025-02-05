@@ -1,18 +1,20 @@
 import { Player } from "./player.js";
-import { EnemyManager } from "./enemy.js";
+import { Enemy } from "./enemy.js";
 
 class Game {
   constructor() {
     this.state = {
       container: document.getElementById("game-container"),
       player: null,
+      enemies: [],
 
       projectiles: {
         enemies: [],
-        player: []
-      }
+        player: [],
+      },
     };
     this.init();
+    window.game = this.state;
   }
 
   init() {
@@ -27,36 +29,19 @@ class Game {
 
     this.state.player = new Player(this.state.container, startX, startY);
   }
-  spawnEnemies() {
-    setInterval(() => {
-      const enemy = new Enemy(
-        this.state.container,
-        40,
-        40,
-        3,
-        "./assets/pika.png"
-      );
-      this.state.enemies.push(enemy);
-    }, 2000); // Un ennemi toutes les 2 secondes
-  }
 
   update() {
     this.moveProjectiles();
-    // this.moveEnemies();
+    this.moveEnemies();
 
     requestAnimationFrame(() => this.update());
   }
   moveEnemies() {
-    this.state.enemies.forEach((enemy, index) => {
-      enemy.move();
-
-      // Supprimer l'ennemi s'il sort de l'écran
-      if (enemy.y > this.state.container.offsetHeight) {
-        enemy.element.remove();
-        this.state.enemies.splice(index, 1);
-      }
+    this.state.enemies.forEach((enemy) => {
+      enemy.Move();
     });
   }
+
   moveProjectiles() {
     // Déplacer les tirs ennemis
     this.state.projectiles.enemies.forEach((projectile, index) => {
@@ -81,12 +66,11 @@ class Game {
 }
 document.addEventListener("DOMContentLoaded", () => {
   const game = new Game();
-  const gameContainer = document.getElementById("game-container");
-  if (gameContainer) {
-    const enemyManager = new EnemyManager(gameContainer);
-    enemyManager.moveEnemies();
-  } else {
-    console.error("game-container non trouvé !");
+  // const gameContainer = document.getElementById("game-container");
+  for (let i = 1; i <= 10; i++) {
+    const enemy = new Enemy();
+    game.state.enemies.push(enemy); // Ajoute les ennemis à this.state.enemies
   }
+
   game.init();
 });
