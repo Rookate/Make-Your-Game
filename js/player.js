@@ -1,4 +1,5 @@
 import { Bullet } from "./bullet.js";
+import { throttle } from "./utils.js";
 
 export class Player {
   constructor(container, x, y) {
@@ -47,10 +48,13 @@ export class Player {
 
   // Initialiser les contrôles
   initControls() {
+
+    const throttledShootProjectile = throttle(() => this.shoot(), 300);
+
     document.addEventListener("keydown", (event) => {
       if (event.key === "ArrowLeft") this.keys.left = true;
       if (event.key === "ArrowRight") this.keys.right = true;
-      if (event.key === " ") this.shoot(); // Appuyer sur espace pour tirer
+      if (event.key === " ") throttledShootProjectile(); // Appuyer sur espace pour tirer
     });
 
     document.addEventListener("keyup", (event) => {
