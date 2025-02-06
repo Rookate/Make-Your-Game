@@ -42,7 +42,6 @@
     overflow: hidden;
     background-color: transparent;
     border: 1px solid grey;
-    display: none;
 }
 
 body {
@@ -290,7 +289,6 @@ body {
     border-radius: 10px;
     color: white;
     text-align: center;
-    display: none;
     z-index: 999999;
 }
 
