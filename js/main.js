@@ -14,7 +14,6 @@ class Game {
         player: [],
       },
     };
-    this.init();
     window.game = this.state;
   }
 
@@ -42,7 +41,7 @@ class Game {
   }
   moveEnemies() {
     this.state.enemies.forEach((enemy) => {
-      enemy.x += this.state.direction * 0.5;
+      enemy.x += this.state.direction * 1;
       if (enemy.x < 0 || enemy.x + 60 >= this.state.container.offsetWidth) {
         this.state.direction *= -1;
 
@@ -70,12 +69,6 @@ class Game {
     });
   }
 
-  shootEnemies() {
-    console.log(this.state.enemies);
-    if (this.state.enemies.length === 0) return;
-    this.state.enemies[0].shoot();
-  }
-
   generateEnemies() {
     const rows = 3;
     const cols = 7;
@@ -91,21 +84,15 @@ class Game {
     }
   }
 
-  startGame() {
-    console.log("Le jeu commence !");
-  }
-
   startEnemiesShooting() {
     const shootRandomEnemy = () => {
       if (this.state.enemies.length === 0) return;
       const randomEnemy =
-        this.state.enemies[
-          Math.floor(Math.random() * this.state.enemies.length)
-        ];
+        this.state.enemies[Math.floor(Math.random() * this.state.enemies.length)];
       randomEnemy.shoot();
     };
 
-    this.enemyShootingInterval = setInterval(shootRandomEnemy, 500);
+    this.enemyShootingInterval = setInterval(shootRandomEnemy, 1000);
   }
 }
 document.addEventListener("DOMContentLoaded", () => {
