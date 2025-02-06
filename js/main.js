@@ -7,6 +7,7 @@ class Game {
       container: document.getElementById("game-container"),
       player: null,
       enemies: [],
+      direction: 1,
 
       projectiles: {
         enemies: [],
@@ -20,6 +21,7 @@ class Game {
   init() {
     this.update();
     this.initializePlayer();
+    this.generateEnemies();
     window.gameState = this.state;
   }
 
@@ -28,6 +30,7 @@ class Game {
     const startY = this.state.container.offsetHeight - 50;
 
     this.state.player = new Player(this.state.container, startX, startY);
+    console.log(this.state.player);
   }
 
   update() {
@@ -38,7 +41,14 @@ class Game {
   }
   moveEnemies() {
     this.state.enemies.forEach((enemy) => {
-      enemy.Move();
+      enemy.x += this.state.direction * 0.5;
+      if (enemy.x < 0 || enemy.x + 60 >= this.state.container.offsetWidth) {
+        this.state.direction *= -1;
+
+        this.state.enemies.forEach(e => e.y += 20);
+
+      }
+      enemy.updatePosition(enemy)
     });
   }
 
@@ -60,17 +70,27 @@ class Game {
     });
   }
 
+  generateEnemies() {
+    const rows = 3
+    const cols = 7;
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const x = col * 50;
+        const y = 50 + row * 50;
+
+        const enemy = new Enemy(x, y);
+        this.state.enemies.push(enemy);
+      }
+    }
+  }
+
   startGame() {
     console.log("Le jeu commence !");
   }
 }
 document.addEventListener("DOMContentLoaded", () => {
   const game = new Game();
-  // const gameContainer = document.getElementById("game-container");
-  for (let i = 1; i <= 10; i++) {
-    const enemy = new Enemy();
-    game.state.enemies.push(enemy); // Ajoute les ennemis à this.state.enemies
-  }
 
   game.init();
 });
