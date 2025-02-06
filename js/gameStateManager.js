@@ -58,7 +58,7 @@ export class GameStateManager {
         document.addEventListener('keydown', this.handleKeyPress);
         this.setupMenuControls();
         this.showMainMenu();
-        window.gameState = this.state; // Pour la compatibilité avec le code existant
+        window.gameState = this.state;
     }
 
     setupMenuControls() {
@@ -95,10 +95,10 @@ export class GameStateManager {
         this.state.waveTransition = false;
 
         this.hideAllScreens();
-        this.ui.gameContainer.style.display = 'block';
-        this.ui.enemiesContainer.style.display = 'block';
-        this.ui.livesDisplay.style.display = 'block';
-        this.ui.scoreDisplay.style.display = 'block';
+        this.ui.gameContainer.classList.remove('hidden');
+        this.ui.enemiesContainer.classList.remove('hidden');
+        this.ui.livesDisplay.classList.remove('hidden');
+        this.ui.scoreDisplay.classList.remove('hidden');
         this.playMusic();
 
         this.initGameElements();
@@ -111,11 +111,11 @@ export class GameStateManager {
             this.state.currentState = 'PAUSED';
             clearInterval(this.enemyShootingInterval);
             this.pauseGameLoop();
-            this.ui.pauseMenu.style.display = 'block';
+            this.ui.pauseMenu.classList.remove('hidden')
             this.pauseMusic();
         } else if (this.state.currentState === 'PAUSED') {
             this.state.currentState = 'PLAYING';
-            this.ui.pauseMenu.style.display = 'none';
+            this.ui.pauseMenu.classList.add('hidden');
             this.startGameLoop();
             this.startEnemyShooting();
             this.playMusic();
@@ -142,12 +142,12 @@ export class GameStateManager {
 
     quitToMenu() {
         this.hideAllScreens();
-        this.ui.mainMenu.style.display = 'block';
+        this.ui.mainMenu.classList.remove('hidden')
+        this.ui.pauseMenu.classList.add('hidden')
         this.state.currentState = 'MENU';
         this.pauseMusic();
         this.stopGameLoop();
         clearTimeout(this.enemyShootingTimeout);
-        this.cleanupGame();
         this.resetState();
     }
 
@@ -234,20 +234,57 @@ export class GameStateManager {
         this.gameLoop = requestAnimationFrame(this.update);
     }
 
-    cleanupGame() {
-        if (this.state.currentState !== 'PLAYING') return;
+    cleanup() {
+        // Suppression des écouteurs d'événements globaux
+        document.removeEventListener('keydown', this.handleKeyPress);
 
+        if (this.keyDownHandler) {
+            document.removeEventListener('keydown', this.keyDownHandler);
+        }
+        if (this.keyUpHandler) {
+            document.removeEventListener('keyup', this.keyUpHandler);
+        }
+
+        // Arrêt de la musique
+        if (this.state.music.background) {
+            this.state.music.background.pause();
+            this.state.music.background.currentTime = 0;
+            this.state.music.isPlaying = false;
+        }
+
+        // Nettoyage des timeouts et intervals
+        this.stopEnemyShooting()
+        this.stopGameLoop();
+
+        // Suppression des ennemis du DOM
         if (this.ui.enemiesContainer) {
             this.ui.enemiesContainer.innerHTML = '';
         }
 
-        if (this.enemyShootingInterval) {
-            clearInterval(this.enemyShootingInterval);
-            this.enemyShootingInterval = null;
-        }
-        this.state.enemySpeed = GAME_CONFIG.ENEMIES.SPEED
-    }
+        // Suppression des projectiles du DOM
 
+        const projectiles = document.querySelectorAll('.bullet')
+        const enemiesBullet = document.querySelectorAll('.enemy-bullet')
+        projectiles.forEach(projectile => projectile.remove())
+        enemiesBullet.forEach(projectile => projectile.remove())
+
+        // Réinitialisation des listes d'objets du jeu
+        this.state.projectiles.player = [];
+        this.state.projectiles.enemies = [];
+        this.state.enemies = [];
+        this.state.activeBonuses = [];
+
+        // Suppression du joueur du DOM
+        if (this.state.player && this.state.player.element) {
+            this.state.player.element.remove(); // Suppression du joueur
+            this.state.player = null; // Réinitialisation
+        }
+
+        // Masquer les écrans
+        this.hideAllScreens();
+
+        console.log("Nettoyage terminé, prêt pour une nouvelle partie.");
+    }
 
     // Player
     initializePlayer() {
@@ -437,16 +474,15 @@ export class GameStateManager {
 
     // Wave
     startNextWave() {
+        console.log(this.state.enemySpeed)
         if (this.state.currentState !== 'PLAYING') return;
 
         this.state.waveTransition = true;
         this.state.wave++;
 
         displayWaveMessage(`Wave ${this.state.wave}`);
-
-        // Supprimer les balles et bonus de la vague précédente
-        this.cleanupGame();
-
+        clearInterval(this.enemyShootingInterval)
+        this.state.enemySpeed = GAME_CONFIG.ENEMIES.SPEED
 
         if (this.state.wave >= GAME_CONFIG.ENEMIES.SPECIAL_START_WAVE) {
             GAME_CONFIG.ENEMIES.HEALTH = GAME_CONFIG.ENEMIES.SPECIAL_HEALTH;
