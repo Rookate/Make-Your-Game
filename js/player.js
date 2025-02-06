@@ -65,7 +65,7 @@ export class Player {
 
     return {
       x: rect.left - gameRect.left,
-      y: rect.top - gameRect.top
+      y: rect.top - gameRect.top,
     };
   }
 }

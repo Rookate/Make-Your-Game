@@ -1,10 +1,14 @@
+import { Bulletenemy } from "./bullet.js";
+
 export class Enemy {
-  constructor(x, y, spacing = 1) {
+  constructor(x, y, speed = 5, spacing = 1) {
     this.container = document.getElementById("enemy-container");
     this.stepDown = false;
     this.spacing = spacing;
+    this.bullets = [];
     this.x = x;
     this.y = y;
+    this.speed = speed;
     this.element = this.createEnemy();
     // this.updatePosition();
   }
@@ -21,11 +25,19 @@ export class Enemy {
     obj.element.style.top = obj.y + "px";
     // this.element.style.top = `${this.y}px`;
   }
-
+  shoot() {
+    const bullet = new Bulletenemy(this.container, this.x, this.y);
+    window.gameState.projectiles.enemies.push(bullet);
+  }
   // Move(x, y) {
-  //   this.x += x
-  //   this.y += y
-  //   this.updatePosition();
+  //   if (this.x > 35) {
+  //     this.x -= this.speed;
+  //     this.updatePosition();
+  //   }
+  //   if (this.y < 670) {
+  //     this.x += this.speed;
+  //     this.updatePosition();
+  //   }
   //   // Animation fluide
   // }
 }
