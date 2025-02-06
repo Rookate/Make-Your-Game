@@ -49,8 +49,8 @@ export class Player {
         let projectilesToCreate = [];
 
         if (this.hasSpreadShot) {
-            projectilesToCreate.push(new Projectile(x - 10, y, this.speed, this.damage));
-            projectilesToCreate.push(new Projectile(x + 10, y, this.speed, this.damage));
+            projectilesToCreate.push(new Projectile(x - 15, y, this.speed, this.damage));
+            projectilesToCreate.push(new Projectile(x + 5, y, this.speed, this.damage));
         } else {
             projectilesToCreate.push(new Projectile(x, y, this.speed, this.damage));
         }
