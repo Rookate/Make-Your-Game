@@ -1,5 +1,6 @@
 import { Player } from "./player.js";
 import { Enemy } from "./enemy.js";
+import { Collision } from "./collision.js";
 
 class Game {
   constructor() {
@@ -14,6 +15,7 @@ class Game {
         player: [],
       },
     };
+    this.collisionManager = new Collision(this.state);
     window.game = this.state;
   }
 
@@ -36,6 +38,7 @@ class Game {
   update() {
     this.moveProjectiles();
     this.moveEnemies();
+    this.collisionManager.checkCollisions()
 
     requestAnimationFrame(() => this.update());
   }
