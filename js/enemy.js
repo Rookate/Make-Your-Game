@@ -26,7 +26,7 @@ export class Enemy {
     // this.element.style.top = `${this.y}px`;
   }
   shoot() {
-    const bullet = new Bulletenemy(this.container, this.x, this.y);
+    const bullet = new Bulletenemy(this.container, this.x + 25, this.y + 25);
     window.gameState.projectiles.enemies.push(bullet);
   }
   // Move(x, y) {
