@@ -47,7 +47,6 @@ body {
   position: absolute;
 }
 
-
 /* Ennemis */
 .enemy {
   position: absolute;
@@ -70,8 +69,8 @@ body {
 
 .bullet-enemy {
   width: 15px;
-  height: 15px;
-  background-image: url("../assets/sasha.png");
+  height: 25px;
+  background-image: url("../assets/eclaire.png");
   background-size: cover;
   position: absolute;
   z-index: 1;
