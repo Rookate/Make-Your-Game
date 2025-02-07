@@ -1,71 +1,54 @@
-import { Bullet } from "./bullet.js";
+import { GAME_CONFIG } from './game-constants.js';
+import { throttle } from './utils.js';
+import { createProjectile } from './projectiles.js';
 
-export class Player {
-  constructor(container, x, y) {
-    this.container = container;
-    this.element = document.getElementById("player");
-    this.x = x;
-    this.y = y; // Position de départ du joueur
-    this.speed = 5;
-    this.keys = { left: false, right: false }; // Stocke les touches pressées
-    this.bullets = []; // Tableau des balles
-    this.initControls();
-    this.updateMovement(); // Démarre le mouvement fluide
-  }
+export let playerMovementId;
+export let playerDirection = 0;
+let playerX;
+const player = document.getElementById('player');
+const gameContainer = document.getElementById('gameContainer');
 
-  moveLeft() {
-    if (this.x > 35) {
-      this.x -= this.speed;
-      this.updatePosition();
+export function initializePlayer() {
+  playerX = gameContainer.offsetWidth / 2;
+  player.style.left = `${playerX}px`;
+}
+
+export function playerMovement() {
+  if (window.gameState.endGame || window.gameState.isPaused) return;
+
+  if (playerDirection !== 0) {
+    playerX += playerDirection * GAME_CONFIG.PLAYER.SPEED; // Utilisation de GAME_CONFIG
+    if (playerX < 0) playerX = 0;
+    if (playerX > gameContainer.offsetWidth - player.offsetWidth) {
+      playerX = gameContainer.offsetWidth - player.offsetWidth;
     }
+    player.style.left = `${playerX}px`;
   }
 
-  moveRight() {
-    if (this.x < 670) {
-      this.x += this.speed;
-      this.updatePosition();
-    }
-  }
+  playerMovementId = requestAnimationFrame(playerMovement);
+}
 
-  updatePosition() {
-    this.element.style.left = `${this.x}px`;
-  }
+function shootProjectile() {
+  if (window.gameState.endGame) return;
+  createProjectile();
+}
 
-  // Mise à jour continue de la position du joueur
-  updateMovement() {
-    if (this.keys.left) this.moveLeft();
-    if (this.keys.right) this.moveRight();
-    requestAnimationFrame(() => this.updateMovement()); // Continuation du mouvement
-  }
+// Correction : Utilisation de GAME_CONFIG pour le temps entre tirs
+const throttledShootProjectile = throttle(shootProjectile, GAME_CONFIG.PLAYER.FIRE_RATE);
 
-  // Fonction pour tirer
-  shoot() {
-    // Créer une balle à la position du joueur (juste au-dessus du joueur)
-    const bullet = new Bullet(this.container, this.x, this.y); // Position ajustée pour être juste au-dessus du joueur
-    window.gameState.projectiles.player.push(bullet);
-  }
+export function setupPlayerControls() {
+  const keyDownHandler = (e) => {
+    if (e.key === 'ArrowLeft') playerDirection = -1;
+    else if (e.key === 'ArrowRight') playerDirection = 1;
+    else if (e.key === ' ') throttledShootProjectile();
+  };
 
-  // Initialiser les contrôles
-  initControls() {
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowLeft") this.keys.left = true;
-      if (event.key === "ArrowRight") this.keys.right = true;
-      if (event.key === " ") this.shoot(); // Appuyer sur espace pour tirer
-    });
+  const keyUpHandler = (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') playerDirection = 0;
+  };
 
-    document.addEventListener("keyup", (event) => {
-      if (event.key === "ArrowLeft") this.keys.left = false;
-      if (event.key === "ArrowRight") this.keys.right = false;
-    });
-  }
+  document.addEventListener('keydown', keyDownHandler);
+  document.addEventListener('keyup', keyUpHandler);
 
-  getPosition() {
-    const rect = this.element.getBoundingClientRect();
-    const gameRect = this.container.getBoundingClientRect();
-
-    return {
-      x: rect.left - gameRect.left,
-      y: rect.top - gameRect.top
-    };
-  }
+  return { keyDownHandler, keyUpHandler };
 }
