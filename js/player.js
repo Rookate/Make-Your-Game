@@ -15,7 +15,7 @@ export class Player {
   }
 
   moveLeft() {
-    if (this.x > 0) {
+    if (this.x > this.element.offsetWidth / 2) {
       // ✅ Empêche de dépasser la limite gauche
       this.x -= this.speed;
       this.updatePosition();
@@ -23,7 +23,7 @@ export class Player {
   }
 
   moveRight() {
-    if (this.x < this.container.offsetWidth - this.element.offsetWidth) {
+    if (this.x < this.container.offsetWidth - (this.element.offsetWidth / 2)) {
       // ✅ Empêche de dépasser la limite droite
       this.x += this.speed;
       this.updatePosition();
