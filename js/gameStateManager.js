@@ -1,6 +1,8 @@
+import { API_SCORE } from './api/api.js';
 import { CollisionManager } from './collisionManager.js';
 import { Enemy, KamikazeEnemy } from './ennemyClass.js';
 import { GAME_CONFIG } from './game-constants.js';
+import { createLeaderBoard } from './leaderBoard.js';
 import { Player } from './player.js';
 import { displayWaveMessage } from './ui.js';
 import { throttle } from './utils.js';
@@ -33,6 +35,7 @@ export class GameStateManager {
         };
 
         this.collisionManager = new CollisionManager(this.state);
+        this.api = new API_SCORE()
 
         // Configuration de la musique
         this.state.music.background.loop = true;
@@ -44,9 +47,12 @@ export class GameStateManager {
             gameContainer: document.getElementById('gameContainer'),
             pauseMenu: document.getElementById('pauseMenu'),
             endMessage: document.getElementById('endMessage'),
+            waveDisplay: document.getElementById('wave'),
             scoreDisplay: document.getElementById('scoreDisplay'),
             livesDisplay: document.getElementById('livesDisplay'),
-            enemiesContainer: document.getElementById('enemiesContainer')
+            enemiesContainer: document.getElementById('enemiesContainer'),
+            logo: document.getElementById('logo'),
+            leaderBoard: document.getElementById('leaderBoard')
         };
 
         // Bind des méthodes
@@ -69,7 +75,9 @@ export class GameStateManager {
             'resumeButton': () => this.togglePause(),
             'quitButton': () => this.quitToMenu(),
             'restartButton': () => this.startGame(),
-            'menu-button': () => this.showMainMenu()
+            'menu-button': () => this.showMainMenu(),
+            'leaderBoardButton': () => this.leaderBoard(),
+            'homeButton': () => this.showMainMenu(),
         };
 
         Object.entries(controls).forEach(([id, handler]) => {
@@ -133,6 +141,7 @@ export class GameStateManager {
     showMainMenu() {
         this.hideAllScreens();
         this.ui.mainMenu.classList.remove('hidden');
+        this.ui.logo.classList.remove('hidden');
         this.state.currentState = 'MENU';
     }
 
@@ -143,6 +152,7 @@ export class GameStateManager {
     quitToMenu() {
         this.hideAllScreens();
         this.ui.mainMenu.classList.remove('hidden')
+        this.ui.logo.classList.remove('hidden')
         this.ui.pauseMenu.classList.add('hidden')
         this.state.currentState = 'MENU';
         this.pauseMusic();
@@ -493,5 +503,14 @@ export class GameStateManager {
             this.startEnemyShooting();
             this.state.waveTransition = false;
         }, 3000);
+    }
+
+    async leaderBoard() {
+        this.hideAllScreens();
+        document.getElementById('player-score-list').innerHTML = ''
+        const scores = await this.api.getScore()
+        const sortedScore = scores.sort((a, b) => b.score - a.score)
+        sortedScore.forEach(score => createLeaderBoard(score))
+        this.ui.leaderBoard.classList.remove('hidden')
     }
 }
