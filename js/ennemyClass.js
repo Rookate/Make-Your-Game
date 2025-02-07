@@ -136,7 +136,7 @@ export class KamikazeEnemy extends Enemy {
     }
 
     explode() {
-        window.gameState.player.lives--; // Enlève 1 PV au joueur
+        window.gameState.player.takeDamage(); // Enlève 1 PV au joueur
         updateLivesDisplay();
         this.destroy();  // Détruit l'ennemi kamikaze
     }

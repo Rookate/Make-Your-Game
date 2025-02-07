@@ -17,6 +17,7 @@ func ScoreHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = json.NewDecoder(r.Body).Decode(&player); err != nil {
+		http.Error(w, "Invalid request body", http.StatusBadRequest)
 		log.Println("Error decode body :", err)
 		return
 	}

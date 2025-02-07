@@ -4,7 +4,7 @@ import { Enemy, KamikazeEnemy } from './ennemyClass.js';
 import { GAME_CONFIG } from './game-constants.js';
 import { createLeaderBoard } from './leaderBoard.js';
 import { Player } from './player.js';
-import { displayWaveMessage } from './ui.js';
+import { displayWaveMessage, updateLivesDisplay, updateScoreDisplay, updateWaveDisplay } from './ui.js';
 import { throttle } from './utils.js';
 
 export class GameStateManager {
@@ -74,7 +74,7 @@ export class GameStateManager {
             'exitButton': () => window.close(),
             'resumeButton': () => this.togglePause(),
             'quitButton': () => this.quitToMenu(),
-            'restartButton': () => this.startGame(),
+            'saveScoreButton': () => this.postScore(),
             'menu-button': () => this.showMainMenu(),
             'leaderBoardButton': () => this.leaderBoard(),
             'homeButton': () => this.showMainMenu(),
@@ -91,7 +91,7 @@ export class GameStateManager {
             this.togglePause();
         }
         if (event.key === 'Escape') {
-            this.quitToMenu();
+            this.togglePause();
         }
     }
 
@@ -107,11 +107,15 @@ export class GameStateManager {
         this.ui.enemiesContainer.classList.remove('hidden');
         this.ui.livesDisplay.classList.remove('hidden');
         this.ui.scoreDisplay.classList.remove('hidden');
+        this.ui.waveDisplay.classList.remove('hidden');
         this.playMusic();
 
         this.initGameElements();
         this.startGameLoop();
         this.startEnemyShooting();
+        updateWaveDisplay();
+        updateLivesDisplay();
+        updateScoreDisplay();
     }
 
     togglePause() {
@@ -132,7 +136,8 @@ export class GameStateManager {
 
     gameOver() {
         this.state.currentState = 'GAME_OVER';
-        this.ui.endMessage.style.display = 'block';
+        this.ui.endMessage.classList.remove('hidden');
+        this.ui.gameContainer.classList.add('hidden')
         this.pauseMusic();
         this.stopGameLoop();
         clearTimeout(this.enemyShootingTimeout);
@@ -228,6 +233,7 @@ export class GameStateManager {
     }
 
     update = () => {
+        if (this.state.currentState === 'GAME_OVER') this.gameOver();
         if (this.state.currentState !== 'PLAYING') return;
 
         if (!this.state.waveTransition && this.ui.enemiesContainer.querySelectorAll('.enemy').length === 0) {
@@ -491,6 +497,7 @@ export class GameStateManager {
         this.state.wave++;
 
         displayWaveMessage(`Wave ${this.state.wave}`);
+        updateWaveDisplay();
         clearInterval(this.enemyShootingInterval)
         this.state.enemySpeed = GAME_CONFIG.ENEMIES.SPEED
 
@@ -512,5 +519,17 @@ export class GameStateManager {
         const sortedScore = scores.sort((a, b) => b.score - a.score)
         sortedScore.forEach(score => createLeaderBoard(score))
         this.ui.leaderBoard.classList.remove('hidden')
+    }
+
+    async postScore() {
+        const playerName = document.getElementById('finalPlayerName').value.trim()
+        const data = {
+            username: playerName,
+            score: this.state.score,
+            date: new Date().toLocaleDateString("fr-FR")
+        }
+        if (await this.api.postScore(data)) {
+            this.showMainMenu();
+        }
     }
 }

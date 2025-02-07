@@ -13,8 +13,6 @@ export function displayEndMessage(message) {
 
 export function displayWaveMessage(message) {
     const waveMessage = document.getElementById("waveMessage");
-    const wave = document.getElementById('wave');
-    wave.textContent = message;
     waveMessage.textContent = message;
     waveMessage.style.display = "block";
 
@@ -23,6 +21,10 @@ export function displayWaveMessage(message) {
     }, 4500);
 }
 
+export function updateWaveDisplay() {
+    const wave = document.getElementById('wave');
+    wave.textContent = `wave : ${window.gameState.wave}`;
+}
 
 export function updateLivesDisplay() {
     document.getElementById("livesDisplay").textContent = `❤️ x ${window.gameState.player.lives}`;

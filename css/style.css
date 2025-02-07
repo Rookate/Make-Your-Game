@@ -50,7 +50,7 @@
     align-items: center;
     flex-direction: column;
     position: relative;
-    background-color: rgba(0, 0, 14);
+    background-color: rgb(0, 0, 1);
     border-radius: 10px;
     height: 70%;
     width: 60%;
@@ -106,6 +106,9 @@
     flex-direction: column;
     gap: 40px;
     width: 100%;
+    max-height: 80%;
+    overflow-y: auto;
+    scrollbar-width: none;
 }
 
 .player-score {
@@ -295,18 +298,63 @@ body {
 
 
 .end-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
     position: absolute;
-    width: 100%;
+    padding: 40px;
+    width: 50%;
+    height: 60%;
+    background-color: black;
+    box-shadow: 0 0 25px 10px rgb(34, 48, 246);
+    border-radius: 10px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     z-index: 1000;
-    display: none;
     /* On le cache par défaut */
 }
 
+.saveScore {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.saveScore input {
+    padding: 10px 0;
+    color: black;
+    font-size: 16px;
+    outline: none;
+    text-align: center;
+    border-radius: 6px;
+}
+
+.saveScore input::placeholder {
+    color: black;
+}
+
+#saveScoreButton {
+    padding: 10px 0px;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    transition: transform .2s ease-in-out;
+}
+
+.endGame-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
 .end-message-text {
+    justify-self: self-start;
     font-size: 60px;
     line-height: 90px;
     color: white;
@@ -326,7 +374,8 @@ body {
 }
 
 .restart-button:hover,
-#menu-button:hover {
+#menu-button:hover,
+#saveScoreButton:hover {
     transform: scale(105%);
 }
 

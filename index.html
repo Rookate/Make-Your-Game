@@ -28,14 +28,14 @@
     </div>
 
     <div class="wave-hud">
-        <span id="wave">Wave 1</span>
+        <span id="wave"></span>
     </div>
     <div id="background"></div>
     <div id="hud-score">
-        <span id="scoreDisplay">Score : 0</span>
+        <span id="scoreDisplay"></span>
     </div>
     <div class="hud">
-        <span id="livesDisplay">❤️ x 3</span>
+        <span id="livesDisplay"></span>
     </div>
     <div id="gameContainer">
 
@@ -48,13 +48,19 @@
 
         <div id="enemiesContainer"></div>
         <div id="waveMessage"></div>
+    </div>
 
-        <div id="endMessage" class="end-message">
-            <div id="endMessageText" class="end-message-text"></div>
-            <div id="endButton">
-                <button id="restartButton" class="restart-button">Replay</button>
+    <div id="endMessage" class="end-message">
+        <div id="endMessageText" class="end-message-text">Game Over</div>
+        <div class="saveScore">
+            <input type="text" id="finalPlayerName" placeholder="Enter a name" name="player_alias">
+            <div class="endGame-btn">
+                <button id="saveScoreButton">Save Score</button>
                 <button id="menu-button">Menu</button>
             </div>
+        </div>
+
+        <div id="endButton">
         </div>
     </div>
 
