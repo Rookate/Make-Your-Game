@@ -76,3 +76,23 @@ body {
   z-index: 1;
   /* Assurez-vous que la balle est au-dessus des autres éléments */
 }
+#score-board {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 24px;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+}
+#health-board {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+}

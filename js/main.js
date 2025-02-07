@@ -12,8 +12,8 @@ class Game {
 
       projectiles: {
         enemies: [],
-        player: [],
-      },
+        player: []
+      }
     };
     this.collisionManager = new Collision(this.state);
     window.game = this.state;
@@ -32,13 +32,20 @@ class Game {
     const startY = this.state.container.offsetHeight - 50;
 
     this.state.player = new Player(this.state.container, startX, startY);
-    console.log(this.state.player);
+
+    // ✅ Initialise la vie du joueur à 3 points
+    this.state.player.health = 6;
+
+    // ✅ Met à jour l'affichage dès le début
+    this.collisionManager.updateHealthDisplay();
+
+    console.log("🛡️ Vie du joueur initialisée :", this.state.player.health);
   }
 
   update() {
     this.moveProjectiles();
     this.moveEnemies();
-    this.collisionManager.checkCollisions()
+    this.collisionManager.checkCollisions();
 
     requestAnimationFrame(() => this.update());
   }
@@ -91,7 +98,9 @@ class Game {
     const shootRandomEnemy = () => {
       if (this.state.enemies.length === 0) return;
       const randomEnemy =
-        this.state.enemies[Math.floor(Math.random() * this.state.enemies.length)];
+        this.state.enemies[
+          Math.floor(Math.random() * this.state.enemies.length)
+        ];
       randomEnemy.shoot();
     };
 
