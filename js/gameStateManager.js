@@ -104,6 +104,8 @@ export class GameStateManager {
 
     async startGame() {
         if (this.isGameStarted) return;
+        this.hideAllScreens();
+
         const cinematic = this.cinematic;
 
         cinematic.createEvent('titleText', CinematicEventType.SCENE, {
@@ -200,7 +202,32 @@ export class GameStateManager {
         }
     }
 
-    gameOver() {
+    async launchGameOver() {
+        this.hideAllScreens();
+
+        const cinematic = this.cinematic;
+
+        cinematic.createEvent('titleText', CinematicEventType.PLAYER, {
+            duration: 3000,
+            text: 'Welcome to the game',
+            className: 'cut-scene',
+            planet: "css/Lava.png",
+            playerImage: "css/galaga-ship.png",
+            backgroundImage: "css/HD-wallpaper-stars-space-artistic-pixel-art.jpg"
+        });
+
+        try {
+            //   await transition.play('levelStart');
+            await cinematic.playSequence(['titleText']);
+            this.gameOver();
+        } catch (error) {
+            console.error('Failed to start game:', error);
+            this.cleanup();
+        }
+    }
+
+    async gameOver() {
+
         this.state.currentState = 'GAME_OVER';
         this.ui.endMessage.classList.remove('hidden');
         this.ui.gameContainer.classList.add('hidden')
@@ -299,7 +326,7 @@ export class GameStateManager {
     }
 
     update = () => {
-        if (this.state.currentState === 'GAME_OVER') this.gameOver();
+        if (this.state.currentState === 'GAME_OVER') this.launchGameOver();
         if (this.state.currentState !== 'PLAYING') return;
 
         if (!this.state.waveTransition && this.ui.enemiesContainer.querySelectorAll('.enemy').length === 0) {
