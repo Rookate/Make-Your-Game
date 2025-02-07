@@ -550,7 +550,7 @@ body {
 .cut-scene {
     width: 100%;
     height: 100vh;
-    background: black;
+    background: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -619,7 +619,7 @@ body {
     font-size: 20px;
     /* Ajustez la taille du texte selon vos préférences */
     text-align: center;
-    background: rgba(0, 0, 0, 0.7);
+    background: transparent;
     /* Fond noir semi-transparent */
     padding: 10px 20px;
     /* Espacement autour du texte */

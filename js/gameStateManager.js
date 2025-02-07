@@ -94,6 +94,7 @@ export class GameStateManager {
     }
 
     handleKeyPress(event) {
+        if (this.state.waveTransition) return;
         if (event.key === 'p') {
             this.togglePause();
         }
@@ -590,6 +591,12 @@ export class GameStateManager {
         this.state.waveTransition = true;
         this.state.wave += 1;
         updateWaveDisplay();
+
+        this.state.enemySpeed = GAME_CONFIG.ENEMIES.SPEED
+
+        if (this.state.wave >= GAME_CONFIG.ENEMIES.SPECIAL_START_WAVE) {
+            GAME_CONFIG.ENEMIES.HEALTH = GAME_CONFIG.ENEMIES.SPECIAL_HEALTH;
+        }
 
         const cinematic = this.cinematic;
         cinematic.createEvent(`waveIntro${this.state.wave}`, CinematicEventType.PLAYER, {
