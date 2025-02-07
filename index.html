@@ -10,12 +10,21 @@
 </head>
 
 <body>
+    <div id="logo">
+        <img src="./css/logo.png" alt="Space Invaer logo">
+    </div>
     <!-- Menu principal -->
     <div id="mainMenu" class="menu">
-        <h2>Space Invaders</h2>
-        <button id="startButton">Commencer le jeu</button>
+        <button id="startButton">New Game</button>
+        <button id="leaderBoardButton">LeaderBoard</button>
         <button id="optionsButton">Options</button>
-        <button id="exitButton">Quitter</button>
+        <button id="exitButton">Quit</button>
+    </div>
+
+    <div id="leaderBoard">
+        <h2>LeaderBoard</h2>
+        <ol id="player-score-list"></ol>
+        <button id="homeButton">Home</button>
     </div>
 
     <div class="wave-hud">
