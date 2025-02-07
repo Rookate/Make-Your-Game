@@ -15,14 +15,16 @@ export class Player {
   }
 
   moveLeft() {
-    if (this.x > 35) {
+    if (this.x > 0) {
+      // ✅ Empêche de dépasser la limite gauche
       this.x -= this.speed;
       this.updatePosition();
     }
   }
 
   moveRight() {
-    if (this.x < 670) {
+    if (this.x < this.container.offsetWidth - this.element.offsetWidth) {
+      // ✅ Empêche de dépasser la limite droite
       this.x += this.speed;
       this.updatePosition();
     }
@@ -48,7 +50,6 @@ export class Player {
 
   // Initialiser les contrôles
   initControls() {
-
     const throttledShootProjectile = throttle(() => this.shoot(), 300);
 
     document.addEventListener("keydown", (event) => {
@@ -69,7 +70,7 @@ export class Player {
 
     return {
       x: rect.left - gameRect.left,
-      y: rect.top - gameRect.top,
+      y: rect.top - gameRect.top
     };
   }
 }
