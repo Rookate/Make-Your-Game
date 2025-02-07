@@ -1,4 +1,5 @@
 import { API_SCORE } from './api/api.js';
+import { CinematicEventType, CinematicManager } from './cinematicManager.js';
 import { CollisionManager } from './collisionManager.js';
 import { Enemy, KamikazeEnemy } from './ennemyClass.js';
 import { GAME_CONFIG } from './game-constants.js';
@@ -36,6 +37,12 @@ export class GameStateManager {
 
         this.collisionManager = new CollisionManager(this.state);
         this.api = new API_SCORE()
+
+
+        // this.transition = new SceneTransition();
+        this.cinematic = new CinematicManager();
+        this.isGameStarted = false;
+        this.waveStarted = false;
 
         // Configuration de la musique
         this.state.music.background.loop = true;
@@ -91,11 +98,70 @@ export class GameStateManager {
             this.togglePause();
         }
         if (event.key === 'Escape') {
-            this.togglePause();
+            this.quitToMenu();
         }
     }
 
-    startGame() {
+    async startGame() {
+        if (this.isGameStarted) return;
+        const cinematic = this.cinematic;
+
+        cinematic.createEvent('titleText', CinematicEventType.SCENE, {
+            duration: 3000,
+            text: 'Welcome to the game',
+            className: 'cut-scene',
+            planet: "css/Lava.png"
+        });
+        cinematic.createEvent('titleText3', CinematicEventType.SCENE, {
+            duration: 3000,
+            text: 'The invader come and destroy our planet',
+            className: 'cut-scene',
+            planet: "css/Terran.png"
+        });
+        cinematic.createEvent('titleText4', CinematicEventType.SCENE, {
+            duration: 4000,
+            text: 'You are the last chance',
+            className: 'cut-scene',
+            planet: "css/Ice.png"
+        });
+        cinematic.createEvent('playerAppear', CinematicEventType.PLAYER, {
+            duration: 5000,
+            className: 'cutscene',
+            text: 'Space June 2079 9pm',
+            playerImage: 'css/pngkey.com-galaga-ship-png-1472422.png',
+            backgroundImage: "css/HD-wallpaper-artistic-pixel-art-space-moon.jpg"
+        });
+        cinematic.createEvent('zoomPlayer', CinematicEventType.PLAYER, {
+            duration: 4000,
+            className: 'cutscene',
+            text: 'Leader to falcon I approach the targets',
+            backgroundImage: 'css/471a0d1d9af520c394e02a09120fc7c1.gif'
+        });
+        cinematic.createEvent('zoomPlayer2', CinematicEventType.PLAYER, {
+            duration: 2000,
+            className: 'cutscene',
+            text: 'Ok leader you can engage',
+            backgroundImage: 'css/471a0d1d9af520c394e02a09120fc7c1.gif'
+        });
+        cinematic.createEvent('zoomPlayer3', CinematicEventType.PLAYER, {
+            duration: 2000,
+            className: 'cutscene',
+            text: 'Prepare to fight !',
+            backgroundImage: 'css/471a0d1d9af520c394e02a09120fc7c1.gif'
+        });
+        //,
+        try {
+            //   await transition.play('levelStart');
+            await cinematic.playSequence(['titleText', 'titleText2', 'titleText3', 'titleText4', 'playerAppear', 'zoomPlayer', 'zoomPlayer2', 'zoomPlayer3']);
+            this.launchGame();
+        } catch (error) {
+            console.error('Failed to start game:', error);
+            this.cleanup();
+        }
+    }
+
+    launchGame() {
+        this.isGameStarted = true;
         this.state.currentState = 'PLAYING';
         this.state.score = 0;
         this.state.lives = GAME_CONFIG.PLAYER.LIVES;
@@ -300,6 +366,8 @@ export class GameStateManager {
         this.hideAllScreens();
 
         console.log("Nettoyage terminé, prêt pour une nouvelle partie.");
+        this.cinematic.cleanup();
+        this.isGameStarted = false;
     }
 
     // Player
@@ -488,28 +556,48 @@ export class GameStateManager {
         clearInterval(this.enemyShootingInterval);
     }
 
+
     // Wave
     startNextWave() {
-        console.log(this.state.enemySpeed)
-        if (this.state.currentState !== 'PLAYING') return;
-
+        if (this.state.waveTransition) return;
         this.state.waveTransition = true;
-        this.state.wave++;
-
-        displayWaveMessage(`Wave ${this.state.wave}`);
+        this.state.wave += 1;
         updateWaveDisplay();
-        clearInterval(this.enemyShootingInterval)
-        this.state.enemySpeed = GAME_CONFIG.ENEMIES.SPEED
 
-        if (this.state.wave >= GAME_CONFIG.ENEMIES.SPECIAL_START_WAVE) {
-            GAME_CONFIG.ENEMIES.HEALTH = GAME_CONFIG.ENEMIES.SPECIAL_HEALTH;
+        const cinematic = this.cinematic;
+        cinematic.createEvent(`waveIntro${this.state.wave}`, CinematicEventType.PLAYER, {
+            duration: 2000,
+            text: `Wave ${this.state.wave} Incoming!`,
+            className: 'cut-scene',
+            backgroundImage: 'css/885542.png'
+        });
+
+        cinematic.createEvent(`waveBriefing${this.state.wave}`, CinematicEventType.PLAYER, {
+            duration: 3000,
+            text: `Prepare for stronger enemies!`,
+            className: 'cut-scene',
+            backgroundImage: 'css/885542.png'
+        });
+
+        if (this.state.wave % 2 === 0) {
+            cinematic.createEvent(`waveSpecial${this.state.wave}`, CinematicEventType.PLAYER, {
+                duration: 3000,
+                text: `Special enemies appear every 5 waves!`,
+                className: 'cut-scene-special',
+                backgroundImage: 'css/HD-wallpaper-artistic-pixel-art-space-moon.jpg'
+            });
         }
 
-        setTimeout(() => {
-            this.generateEnemies();
-            this.startEnemyShooting();
-            this.state.waveTransition = false;
-        }, 3000);
+        cinematic.playSequence([`waveIntro${this.state.wave}`, `waveSpecial${this.state.wave}`, `waveBriefing${this.state.wave}`])
+            .then(() => {
+                this.state.waveTransition = false;
+                this.generateEnemies();
+            })
+            .catch(error => {
+                console.error('Wave cinematic failed:', error);
+                this.state.waveTransition = false;
+                this.generateEnemies();
+            });
     }
 
     async leaderBoard() {

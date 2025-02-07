@@ -506,3 +506,168 @@ body {
 .damage-effect {
     animation: damageFlash 0.2s ease-in-out;
 }
+
+
+/* Scene Transition */
+
+.SceneTransition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0;
+    animation: fadeIn 3s linear;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.cinematic-text {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.cut-scene {
+    width: 100%;
+    height: 100vh;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+
+    /* Important pour positionner l'overlay */
+}
+
+.cut-scene-special {
+    width: 100%;
+    height: 100vh;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+
+    /* Important pour positionner l'overlay */
+}
+
+
+.cut-scene-image {
+    position: absolute;
+    width: 150px;
+    /* Ajuste la taille de l'image */
+    height: auto;
+    /* Garde la proportion de l'image */
+    object-fit: contain;
+    /* Garde les proportions et ajuste la taille */
+    z-index: 1000;
+    /* Place l'image correctement dans la pile */
+}
+
+.speed-line {
+    position: absolute;
+    height: 2px;
+    background-color: white;
+    animation: speedEffect 1s linear infinite;
+}
+
+@keyframes speedEffect {
+    0% {
+        transform: translateX(-100%) rotate(0deg);
+    }
+
+    100% {
+        transform: translateX(100vw) rotate(360deg);
+    }
+}
+
+
+.cut-scene-text {
+    position: fixed;
+    /* Positionné en bas */
+    left: 50%;
+    /* Centré horizontalement */
+    transform: translateX(-50%);
+    /* Centrage horizontal */
+    color: white;
+    font-size: 20px;
+    /* Ajustez la taille du texte selon vos préférences */
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    /* Fond noir semi-transparent */
+    padding: 10px 20px;
+    /* Espacement autour du texte */
+    border-radius: 5px;
+    /* Coins arrondis */
+    animation: fadeIn 2s ease-in forwards;
+    /* Animation d'apparition */
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+@keyframes moveUp {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100vh);
+    }
+}
+
+.player-cutscene {
+    width: 5px;
+    /* Ajuste la taille selon ton design */
+    height: 5px;
+    /* background-image: url("./pngkey.com-galaga-ship-png-1472422.png"); */
+    /* Remplace par l’image du joueur */
+    background-color: red;
+    transform: rotate(-90deg);
+    background-repeat: no-repeat;
+}
+
+@keyframes moveRight {
+    from {
+        left: 0;
+    }
+
+    to {
+        left: 100%;
+    }
+}
