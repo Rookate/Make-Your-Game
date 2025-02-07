@@ -11,25 +11,160 @@
 
 /* Cacher les éléments quand nécessaire */
 .hidden {
-    display: none;
+    display: none !important;
+}
+
+#logo {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-30%, -50%);
+    user-select: none;
+    pointer-events: none;
+}
+
+#logo img {
+    width: 60%;
+    height: 60%;
+    user-select: none;
+    pointer-events: none;
 }
 
 /* Menu principal */
 #mainMenu {
+    display: flex;
+    flex-direction: column;
     text-align: center;
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: Arial, sans-serif;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: transparent;
     padding: 30px;
     border-radius: 10px;
 }
 
+#leaderBoard {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    background-color: rgba(0, 0, 14);
+    border-radius: 10px;
+    height: 70%;
+    width: 60%;
+    padding: 40px;
+    color: white;
+    text-shadow: 2px 2px 0px #000000, 4px 4px 0px #0010c4;
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+#leaderBoard::after,
+#leaderBoard::before {
+
+    content: '';
+    position: absolute;
+    background-image: conic-gradient(from var(--angle), transparent 70%, blue, red, yellow);
+    transform: translate(0, -3px);
+    width: 100%;
+    height: 100%;
+    top: -0;
+    padding: 3px;
+    border-radius: 10px;
+    z-index: -1;
+    animation: 4s spin linear infinite;
+}
+
+#leaderBoard::before {
+    filter: blur(1.5rem);
+    opacity: 0.5;
+}
+
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
+    }
+}
+
+#leaderBoard h2 {
+    margin-bottom: 40px;
+}
+
+#player-score-list {
+    counter-reset: rank;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+}
+
+.player-score {
+    counter-increment: rank;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
+.player-score::before {
+    content: counter(rank) ". ";
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+
+.username {
+    flex: 1;
+    /* Prend tout l'espace possible à gauche */
+}
+
+.points {
+    flex: 2;
+    /* Prend plus d'espace au milieu */
+    text-align: center;
+    /* Centrer le score */
+}
+
+.times {
+    flex: 1;
+    /* Prend l'espace à droite */
+    text-align: right;
+    /* Aligne la date à droite */
+}
+
+#homeButton {
+    margin-top: auto;
+    padding: 15px 30px;
+    border-radius: 6px;
+    background-color: rgba(60, 60, 60, 0.4);
+    border: none;
+    position: relative;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 0 35px 13px rgb(34, 48, 246);
+
+    /* Cache ce qui dépasse */
+    animation: breathe 3s ease-in-out infinite;
+    /* Animation de respiration */
+}
+
 #mainMenu button {
     margin: 10px;
-    padding: 10px;
+    padding: 10px 100px;
     font-size: 18px;
     cursor: pointer;
 }
