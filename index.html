@@ -6,9 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Invader</title>
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="icon" href="./css/logo.png" type="image/png">
 </head>
 
 <body>
+    <div id="logo">
+        <img src="./css/logo.png" alt="Space Invaer logo">
+    </div>
+    <!-- Menu principal -->
+    <div id="mainMenu" class="menu">
+        <button id="startButton">New Game</button>
+        <button id="leaderBoardButton">LeaderBoard</button>
+        <button id="optionsButton">Options</button>
+        <button id="exitButton">Quit</button>
+    </div>
+
+    <div id="leaderBoard">
+        <h2>LeaderBoard</h2>
+        <ol id="player-score-list"></ol>
+        <button id="homeButton">Home</button>
+    </div>
+
     <div class="wave-hud">
         <span id="wave">Wave 1</span>
     </div>
@@ -20,8 +38,15 @@
         <span id="livesDisplay">❤️ x 3</span>
     </div>
     <div id="gameContainer">
-        <div id="player"></div>
-        <div id="enemies"></div>
+
+        <!-- Menu pause -->
+        <div id="pauseMenu" class="hidden">
+            <h2>Pause</h2>
+            <button id="resumeButton">Reprendre</button>
+            <button id="quitButton">Quitter</button>
+        </div>
+
+        <div id="enemiesContainer"></div>
         <div id="waveMessage"></div>
 
         <div id="endMessage" class="end-message">
