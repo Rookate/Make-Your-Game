@@ -12,6 +12,15 @@ export class CollisionManager {
         this.checkEnemyProjectiles();
         this.checkProjectileBonuses();
         this.checkKamikazeEnemies();
+        this.checkPlayerAndEnemies();
+    }
+
+    checkPlayerAndEnemies() {
+        this.gameState.enemies.forEach(enemy => {
+            if (this.isColliding(enemy, this.gameState.player)) {
+                this.gameState.currentState = 'GAME_OVER';
+            }
+        })
     }
 
     checkPlayerProjectiles() {
