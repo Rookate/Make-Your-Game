@@ -34,6 +34,7 @@ export class Enemy {
     }
 
     move(dx, dy) {
+        if (this.y >= document.getElementById('gameContainer').offsetHeight) window.gameState.currentState = 'GAME_OVER'
         this.x += dx;
         this.y += dy;
         this.updatePosition();
