@@ -1,6 +1,7 @@
 import { Player } from "./player.js";
 import { Enemy } from "./enemy.js";
 import { Collision } from "./collision.js";
+import { Block } from "./block.js";
 
 class Game {
   constructor() {
@@ -15,8 +16,11 @@ class Game {
         enemies: [],
         player: [],
       },
+
+      blocks: [],
     };
     this.collisionManager = new Collision(this.state);
+
     window.game = this.state;
   }
 
@@ -25,7 +29,13 @@ class Game {
     this.initializePlayer();
     this.generateEnemies();
     this.startEnemiesShooting();
+    this.createBlock();
     window.gameState = this.state;
+
+    for (let i = 0; i < 4; i++) {
+      const block = new Block();
+      this.state.blocks.push(block);
+    }
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "p") {

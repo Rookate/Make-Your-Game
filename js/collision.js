@@ -10,14 +10,25 @@ export class Collision {
     this.collisionEnd();
     this.collisionBlock();
   }
+
   collisionBlock() {
-    const block = document.querySelectorAll("block");
-    const projectilleEnemies = this.state.Projectiles.enemies;
+    const blocks = document.querySelectorAll(".block");
+    const projectillesEnemies = this.state.projectiles.enemies;
     const projectillesPlayer = this.state.projectiles.player;
-    projectilleEnemies.forEach((enemies) => {
-      if (this.isCollision(enemies, block)) remove(projectilles);
+    projectillesEnemies.forEach((projectille) => {
+      blocks.forEach((block) => {
+        if (this.isCollision(projectille, { element: block }))
+          projectille.remove();
+        console.log(block.element);
+      });
     });
-    projectillesPlayer.forEach(player);
+    projectillesPlayer.forEach((projectille) => {
+      blocks.forEach((block) => {
+        if (this.isCollision(projectille, { element: block }))
+          projectille.remove();
+        console.log(block.element);
+      });
+    });
   }
   collisionEnemiesPlayer() {
     const enemies = this.state.enemies;

@@ -130,7 +130,7 @@ button#continue{
   color: black;
 
 }
-#block{
+.block{
   background-color: rgb(8, 0, 82);
   padding: 10px;
   border-radius: 5px;
@@ -138,7 +138,7 @@ button#continue{
   width: 40px;
 }
 
-.block-container {
+#block-container {
   position: absolute;
   bottom: 15%;
   display: flex;
