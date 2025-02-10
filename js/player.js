@@ -23,7 +23,7 @@ export class Player {
   }
 
   moveRight() {
-    if (this.x < this.container.offsetWidth - (this.element.offsetWidth / 2)) {
+    if (this.x < this.container.offsetWidth - this.element.offsetWidth / 2) {
       // ✅ Empêche de dépasser la limite droite
       this.x += this.speed;
       this.updatePosition();
@@ -53,12 +53,15 @@ export class Player {
     const throttledShootProjectile = throttle(() => this.shoot(), 300);
 
     document.addEventListener("keydown", (event) => {
+      console.log(window.game.pause);
+      if (window.game.pause) return;
       if (event.key === "ArrowLeft") this.keys.left = true;
       if (event.key === "ArrowRight") this.keys.right = true;
       if (event.key === " ") throttledShootProjectile(); // Appuyer sur espace pour tirer
     });
 
     document.addEventListener("keyup", (event) => {
+      if (window.game.pause) return;
       if (event.key === "ArrowLeft") this.keys.left = false;
       if (event.key === "ArrowRight") this.keys.right = false;
     });
@@ -70,7 +73,7 @@ export class Player {
 
     return {
       x: rect.left - gameRect.left,
-      y: rect.top - gameRect.top
+      y: rect.top - gameRect.top,
     };
   }
 }

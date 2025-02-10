@@ -9,11 +9,12 @@ class Game {
       player: null,
       enemies: [],
       direction: 1,
+      pause: false,
 
       projectiles: {
         enemies: [],
-        player: []
-      }
+        player: [],
+      },
     };
     this.collisionManager = new Collision(this.state);
     window.game = this.state;
@@ -25,6 +26,16 @@ class Game {
     this.generateEnemies();
     this.startEnemiesShooting();
     window.gameState = this.state;
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "p") {
+        this.gamePause();
+      }
+    });
+
+    document.getElementById("continue").addEventListener("click", () => {
+      this.gamePause();
+    });
   }
 
   initializePlayer() {
@@ -47,8 +58,9 @@ class Game {
     this.moveEnemies();
     this.collisionManager.checkCollisions();
 
-    requestAnimationFrame(() => this.update());
+    this.gameLoop = requestAnimationFrame(() => this.update());
   }
+
   moveEnemies() {
     this.state.enemies.forEach((enemy) => {
       enemy.x += this.state.direction * 1;
@@ -92,6 +104,15 @@ class Game {
         this.state.enemies.push(enemy);
       }
     }
+    // if (this.state.enemies.length === 0) {
+    //   for (let row = 0; row < row; row++) {
+    //     const x = col * 50;
+    //     const y = 50 + row * 50;
+
+    //     const enemy = new Enemy(x, y);
+    //     this.state.enemies.push(enemy);
+    //   }
+    // }
   }
 
   startEnemiesShooting() {
@@ -106,7 +127,25 @@ class Game {
 
     this.enemyShootingInterval = setInterval(shootRandomEnemy, 1000);
   }
+
+  gamePause() {
+    const menupause = document.getElementById("pause");
+
+    if (!this.state.pause) {
+      this.state.pause = true;
+      menupause.style.display = "flex";
+      console.log(this.state.pause);
+      cancelAnimationFrame(this.gameLoop);
+      clearInterval(this.enemyShootingInterval);
+    } else {
+      menupause.style.display = "none";
+      this.state.pause = false;
+      this.startEnemiesShooting();
+      this.update();
+    }
+  }
 }
+
 document.addEventListener("DOMContentLoaded", () => {
   const game = new Game();
 

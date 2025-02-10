@@ -96,3 +96,15 @@ body {
   padding: 10px;
   border-radius: 5px;
 }
+#pause {
+  display: none;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.199);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+
+}
