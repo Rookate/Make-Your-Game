@@ -1,14 +1,13 @@
 import { Bulletenemy } from "./bullet.js";
 
 export class Enemy {
-  constructor(x, y, speed = 5, spacing = 1) {
+  constructor(x, y, spacing = 1) {
     this.container = document.getElementById("enemy-container");
     this.stepDown = false;
     this.spacing = spacing;
     this.bullets = [];
     this.x = x;
     this.y = y;
-    this.speed = speed;
     this.element = this.createEnemy();
     // this.updatePosition();
   }

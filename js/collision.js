@@ -6,8 +6,34 @@ export class Collision {
   checkCollisions() {
     this.checkPlayerProjectiles();
     this.checkEnemyProjectiles();
+    this.collisionEnemiesPlayer();
+    this.collisionEnd();
+    this.collisionBlock();
   }
-
+  collisionBlock() {
+    const block = document.querySelectorAll("block");
+    const projectilleEnemies = this.state.Projectiles.enemies;
+    const projectillesPlayer = this.state.projectiles.player;
+    projectilleEnemies.forEach((enemies) => {
+      if (this.isCollision(enemies, block)) remove(projectilles);
+    });
+    projectillesPlayer.forEach(player);
+  }
+  collisionEnemiesPlayer() {
+    const enemies = this.state.enemies;
+    enemies.forEach((enemy) => {
+      if (this.isCollision(enemy, window.game.player)) {
+        this.endGame();
+      }
+    });
+  }
+  collisionEnd() {
+    this.state.enemies.forEach((enemy) => {
+      if (enemy.y >= this.state.container.offsetHeight) {
+        this.endGame();
+      }
+    });
+  }
   checkPlayerProjectiles() {
     const playerProjectiles = this.state.projectiles.player;
     const enemies = this.state.enemies;

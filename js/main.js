@@ -125,7 +125,7 @@ class Game {
       randomEnemy.shoot();
     };
 
-    this.enemyShootingInterval = setInterval(shootRandomEnemy, 1000);
+    this.enemyShootingInterval = setInterval(shootRandomEnemy, 3000);
   }
 
   gamePause() {
