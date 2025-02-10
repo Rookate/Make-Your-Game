@@ -141,10 +141,10 @@ export class GameStateManager {
             backgroundImage: 'css/471a0d1d9af520c394e02a09120fc7c1.gif'
         });
         cinematic.createEvent('zoomPlayer2', CinematicEventType.PLAYER, {
-            duration: 2000,
+            duration: 5000,
             className: 'cutscene',
             text: 'Ok leader you can engage',
-            backgroundImage: 'css/471a0d1d9af520c394e02a09120fc7c1.gif'
+            backgroundImage: 'css/f2162a69274b7cb1f9330c4580f28723.gif'
         });
         cinematic.createEvent('zoomPlayer3', CinematicEventType.PLAYER, {
             duration: 2000,
@@ -210,11 +210,10 @@ export class GameStateManager {
 
         cinematic.createEvent('titleText', CinematicEventType.PLAYER, {
             duration: 3000,
-            text: 'Welcome to the game',
+            text: 'Game Over, Invaders win',
             className: 'cut-scene',
-            planet: "css/Lava.png",
             playerImage: "css/galaga-ship.png",
-            backgroundImage: "css/HD-wallpaper-stars-space-artistic-pixel-art.jpg"
+            backgroundImage: "css/83024e2e5cd4fc4261e4b97dc93ed12c.gif"
         });
 
         try {

@@ -558,7 +558,7 @@ body {
     font-size: 14px;
     text-align: center;
     position: relative;
-
+    image-rendering: pixelated;
     /* Important pour positionner l'overlay */
 }
 
