@@ -83,24 +83,26 @@ export class SequenceCinematic {
         }
     }
 
-    async playWaveSquence() {
+    async playWaveSequence() {
         const cinematic = this.cinematic;
-        cinematic.createEvent(`waveIntro${window.gameState.wave}`, CinematicEventType.PLAYER, {
+        const wave = window.gameState.wave;
+
+        cinematic.createEvent(`waveIntro${wave}`, CinematicEventType.PLAYER, {
             duration: 2000,
-            text: `Wave ${window.gameState.wave} Incoming!`,
+            text: `Wave ${wave} Incoming!`,
             className: 'cut-scene',
             backgroundImage: 'css/885542.png'
         });
 
-        cinematic.createEvent(`waveBriefing${window.gameState.wave}`, CinematicEventType.PLAYER, {
+        cinematic.createEvent(`waveBriefing${wave}`, CinematicEventType.PLAYER, {
             duration: 3000,
             text: `Prepare for stronger enemies!`,
             className: 'cut-scene',
             backgroundImage: 'css/885542.png'
         });
 
-        if (window.gameState.wave % 2 === 0) {
-            cinematic.createEvent(`waveSpecial${window.gameState.wave}`, CinematicEventType.PLAYER, {
+        if (wave % 5 === 0) {
+            cinematic.createEvent(`waveSpecial${wave}`, CinematicEventType.PLAYER, {
                 duration: 3000,
                 text: `Special enemies appear every 5 waves!`,
                 className: 'cut-scene-special',
@@ -108,15 +110,18 @@ export class SequenceCinematic {
             });
         }
 
-        cinematic.playSequence([`waveIntro${window.gameState.wave}`, `waveSpecial${window.gameState.wave}`, `waveBriefing${window.gameState.wave}`])
-            .then(() => {
-                window.gameState.waveTransition = false;
-                return true;
-            })
-            .catch(error => {
-                console.error('Wave cinematic failed:', error);
-                window.gameState.waveTransition = false;
-                return false;
-            });
+        try {
+            await cinematic.playSequence([
+                `waveIntro${wave}`,
+                `waveSpecial${wave}`,
+                `waveBriefing${wave}`
+            ]);
+            window.gameState.waveTransition = false;
+            return true;
+        } catch (error) {
+            console.error('Wave cinematic failed:', error);
+            window.gameState.waveTransition = false;
+            return false;
+        }
     }
 }

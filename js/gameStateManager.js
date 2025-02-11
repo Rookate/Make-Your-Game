@@ -110,6 +110,7 @@ export class GameStateManager {
         this.hideAllScreens();
 
         if (await this.sequence.playSequence()) {
+            console.log("Oui")
             this.launchGame();
         }
     }
@@ -531,7 +532,7 @@ export class GameStateManager {
             GAME_CONFIG.ENEMIES.HEALTH = GAME_CONFIG.ENEMIES.SPECIAL_HEALTH;
         }
 
-        if (await this.sequence.playWaveSquence()) {
+        if (await this.sequence.playWaveSequence()) {
             this.generateEnemies();
         }
     }
