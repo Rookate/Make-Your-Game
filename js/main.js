@@ -51,7 +51,7 @@ class Game {
     const totalWidth = numBlocks * blockWidth + (numBlocks - 1) * spacing; // Largeur totale des blocs avec espacement
     const startX = (this.state.container.offsetWidth - totalWidth) / 2; // Point de départ pour centrer
 
-    const yPosition = this.state.container.offsetHeight; // Place les blocs à 100px du bas
+    const yPosition = this.state.container.offsetHeight;
 
     for (let i = 0; i < numBlocks; i++) {
       const x = startX + i * (blockWidth + spacing); // Position horizontale de chaque bloc
