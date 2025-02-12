@@ -8,28 +8,29 @@ export class Collision {
     this.checkEnemyProjectiles();
     this.collisionEnemiesPlayer();
     this.collisionEnd();
-    this.collisionBlock();
+    // this.collisionBlock();
   }
 
-  collisionBlock() {
-    const blocks = document.querySelectorAll(".block");
-    const projectillesEnemies = this.state.projectiles.enemies;
-    const projectillesPlayer = this.state.projectiles.player;
-    projectillesEnemies.forEach((projectille) => {
-      blocks.forEach((block) => {
-        if (this.isCollision(projectille, { element: block }))
-          projectille.remove();
-        console.log(block.element);
-      });
-    });
-    projectillesPlayer.forEach((projectille) => {
-      blocks.forEach((block) => {
-        if (this.isCollision(projectille, { element: block }))
-          projectille.remove();
-        console.log(block.element);
-      });
-    });
-  }
+  // collisionBlock() {
+  //   const { blocks, projectiles } = this.state;
+
+  //   if (!blocks || !projectiles) return false;
+
+  //   const checkCollision = (projectileList) => {
+  //     projectileList.forEach((projectile) => {
+  //       blocks.forEach((block) => {
+  //         if (this.isCollision(projectile, { element: block })) {
+  //           projectile.remove();
+  //           console.log(block.element);
+  //         }
+  //       });
+  //     });
+  //   };
+
+  //   checkCollision(projectiles.enemies);
+  //   checkCollision(projectiles.player);
+  // }
+
   collisionEnemiesPlayer() {
     const enemies = this.state.enemies;
     enemies.forEach((enemy) => {
@@ -125,11 +126,11 @@ export class Collision {
   }
 
   endGame() {
-    alert("💀 Game Over ! Vous avez perdu.");
+    // alert("💀 Game Over ! Vous avez perdu.");
     window.location.reload();
   }
   winGame() {
-    alert("🎉 Félicitations ! Vous avez gagné !");
+    // alert("🎉 Félicitations ! Vous avez gagné !");
     window.location.reload(); // Recharge la page pour recommencer
   }
 }

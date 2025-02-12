@@ -1,13 +1,16 @@
 export class Block {
-  constructor() {
+  constructor(x, y) {
     this.health = 3;
-    this.element = this.createBlock();
     this.container = document.getElementById("block-container");
+    this.element = this.createBlock();
   }
+
   createBlock() {
-    const blocks = document.createElement("div");
-    blocks.classList.add("block");
-    this.container.appendChild(blocks);
-    return blocks;
+    const block = document.createElement("div");
+    block.classList.add("blocks");
+    this.block.style.left = `${x}px`;
+    this.block.style.top = `${y}px`;
+    this.container.appendChild(block);
+    return block;
   }
 }

@@ -7,19 +7,21 @@ class Game {
   constructor() {
     this.state = {
       container: document.getElementById("game-container"),
+      containerBlock: document.getElementById("block-container"),
+
       player: null,
       enemies: [],
       direction: 1,
       pause: false,
-
+      blocks: [],
       projectiles: {
         enemies: [],
-        player: [],
-      },
-
-      blocks: [],
+        player: []
+      }
     };
+    console.log("block - container");
     this.collisionManager = new Collision(this.state);
+    // this.blockFunction = new Block(this.state);
 
     window.game = this.state;
   }
@@ -29,13 +31,8 @@ class Game {
     this.initializePlayer();
     this.generateEnemies();
     this.startEnemiesShooting();
-    this.createBlock();
+    this.createBlocks();
     window.gameState = this.state;
-
-    for (let i = 0; i < 4; i++) {
-      const block = new Block();
-      this.state.blocks.push(block);
-    }
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "p") {
@@ -46,6 +43,13 @@ class Game {
     document.getElementById("continue").addEventListener("click", () => {
       this.gamePause();
     });
+  }
+  createBlocks() {
+    for (let i = 0; i < 4; i++) {
+      const block = new Block(150 + i * 150, 450, this.state.containerBlock);
+
+      this.state.blocks.push(block);
+    }
   }
 
   initializePlayer() {
@@ -114,15 +118,6 @@ class Game {
         this.state.enemies.push(enemy);
       }
     }
-    // if (this.state.enemies.length === 0) {
-    //   for (let row = 0; row < row; row++) {
-    //     const x = col * 50;
-    //     const y = 50 + row * 50;
-
-    //     const enemy = new Enemy(x, y);
-    //     this.state.enemies.push(enemy);
-    //   }
-    // }
   }
 
   startEnemiesShooting() {
