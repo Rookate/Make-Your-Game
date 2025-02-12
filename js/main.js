@@ -81,7 +81,7 @@ class Game {
       if (enemy.x < 0 || enemy.x + 60 >= this.state.container.offsetWidth) {
         this.state.direction *= -1;
 
-        this.state.enemies.forEach((e) => (e.y += 20));
+        this.state.enemies.forEach((e) => (e.y += 10));
       }
       enemy.updatePosition(enemy);
     });

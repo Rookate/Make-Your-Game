@@ -17,23 +17,38 @@ export class Collision {
     if (!blocks || !projectiles) return false;
 
     const checkCollision = (projectileList) => {
-      projectileList.forEach((projectile) => {
-        blocks.forEach((block) => {
+      // Boucle sur chaque projectile
+      for (let pIndex = projectileList.length - 1; pIndex >= 0; pIndex--) {
+        const projectile = projectileList[pIndex];
+
+        // Vérifier la collision avec chaque bloc
+        for (let bIndex = blocks.length - 1; bIndex >= 0; bIndex--) {
+          const block = blocks[bIndex];
+
           if (this.isCollision(projectile, block)) {
-            projectile.remove();
+            // Réduire la santé du bloc touché
             block.health -= 1;
+
+            // Mettre à jour l'affichage de la santé
             this.updateHealthDisplay();
             console.log(`Bloc touché ! Santé restante : ${block.health}`);
 
+            // Si la santé du bloc tombe à 0, le supprimer
             if (block.health <= 0) {
-              if (block.element.remove());
-              blocks.splice(block, 1);
-              console.log("Block détruit !");
+              if (block.element) block.element.remove(); // Supprimer l'élément du DOM
+              blocks.splice(bIndex, 1); // Retirer le bloc de la liste
+              console.log("Bloc détruit !");
             }
-            console.log(block.element);
+
+            // Supprimer le projectile après la collision
+            if (projectile.element) projectile.element.remove();
+            projectileList.splice(pIndex, 1); // Retirer le projectile de la liste
+
+            // Ne pas utiliser `break` pour permettre de gérer plusieurs collisions simultanées
+            break; // Sortir uniquement de la boucle de blocs (le projectile ne peut toucher qu'un bloc)
           }
-        });
-      });
+        }
+      }
     };
 
     checkCollision(projectiles.enemies);
@@ -44,7 +59,7 @@ export class Collision {
     const enemies = this.state.enemies;
     enemies.forEach((enemy) => {
       if (this.isCollision(enemy, window.game.player)) {
-        this.endGame();
+        // this.endGame();
       }
     });
   }
@@ -101,7 +116,7 @@ export class Collision {
 
         if (player.health <= 0) {
           console.log("💀 Game Over !");
-          this.endGame();
+          // this.endGame();
         }
       }
     });
@@ -142,12 +157,12 @@ export class Collision {
     }
   }
 
-  endGame() {
-    alert("💀 Game Over ! Vous avez perdu.");
-    window.location.reload();
-  }
+  // endGame() {
+  //   // alert("💀 Game Over ! Vous avez perdu.");
+  //   window.location.reload();
+  // }
   winGame() {
-    alert("🎉 Félicitations ! Vous avez gagné !");
+    // alert("🎉 Félicitations ! Vous avez gagné !");
     window.location.reload(); // Recharge la page pour recommencer
   }
 }
