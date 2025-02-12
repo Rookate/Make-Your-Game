@@ -53,7 +53,6 @@ export class Player {
     const throttledShootProjectile = throttle(() => this.shoot(), 300);
 
     document.addEventListener("keydown", (event) => {
-      console.log(window.game.pause);
       if (window.game.pause) return;
       if (event.key === "ArrowLeft") this.keys.left = true;
       if (event.key === "ArrowRight") this.keys.right = true;

@@ -7,8 +7,6 @@ class Game {
   constructor() {
     this.state = {
       container: document.getElementById("game-container"),
-      containerBlock: document.getElementById("block-container"),
-
       player: null,
       enemies: [],
       direction: 1,
@@ -19,7 +17,6 @@ class Game {
         player: []
       }
     };
-    // console.log(this.state.containerBlock);
     this.collisionManager = new Collision(this.state);
 
     window.game = this.state;
@@ -44,25 +41,17 @@ class Game {
     });
   }
   createBlocks() {
-    const blockWidth = 50; // Largeur de chaque bloc
     const numBlocks = 4; // Nombre de blocs
-    const spacing = 20; // Espacement entre les blocs
-
-    const totalWidth = numBlocks * blockWidth + (numBlocks - 1) * spacing; // Largeur totale des blocs avec espacement
-    const startX = (this.state.container.offsetWidth - totalWidth) / 2; // Point de départ pour centrer
-
-    const yPosition = this.state.container.offsetHeight;
 
     for (let i = 0; i < numBlocks; i++) {
-      const x = startX + i * (blockWidth + spacing); // Position horizontale de chaque bloc
-      const block = new Block(x, yPosition, this.state.containerBlock); // Ajoute chaque bloc au conteneur
+      const block = new Block(); // Ajoute chaque bloc au conteneur
       this.state.blocks.push(block);
     }
   }
 
   initializePlayer() {
     const startX = this.state.container.offsetWidth / 2;
-    const startY = this.state.container.offsetHeight - 100;
+    const startY = this.state.container.offsetHeight - 40;
 
     this.state.player = new Player(this.state.container, startX, startY);
 
@@ -97,20 +86,10 @@ class Game {
 
   moveProjectiles() {
     // Déplacer les tirs ennemis
-    this.state.projectiles.enemies.forEach((projectile, index) => {
-      const isActive = projectile.move();
-      if (!isActive) {
-        this.state.projectiles.enemies.splice(index, 1); // Retirer les projectiles hors écran
-      }
-    });
+    this.state.projectiles.enemies = this.state.projectiles.enemies.filter(projectile => projectile.move());
 
-    // Déplacer les tirs du joueur (ajoute un tableau pour stocker les tirs du joueur)
-    this.state.projectiles.player.forEach((projectile, index) => {
-      const isActive = projectile.move();
-      if (!isActive) {
-        this.state.projectiles.player.splice(index, 1);
-      }
-    });
+    // Déplacer les tirs du joueur
+    this.state.projectiles.player = this.state.projectiles.player.filter(projectile => projectile.move());
   }
 
   generateEnemies() {
@@ -129,11 +108,12 @@ class Game {
   }
 
   startEnemiesShooting() {
+    if (this.enemyShootingInterval) clearInterval(this.enemyShootingInterval);
     const shootRandomEnemy = () => {
       if (this.state.enemies.length === 0) return;
       const randomEnemy =
         this.state.enemies[
-          Math.floor(Math.random() * this.state.enemies.length)
+        Math.floor(Math.random() * this.state.enemies.length)
         ];
       randomEnemy.shoot();
     };
@@ -147,7 +127,6 @@ class Game {
     if (!this.state.pause) {
       this.state.pause = true;
       menupause.style.display = "flex";
-      console.log(this.state.pause);
       cancelAnimationFrame(this.gameLoop);
       clearInterval(this.enemyShootingInterval);
     } else {

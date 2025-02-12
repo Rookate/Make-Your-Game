@@ -1,18 +1,13 @@
 export class Block {
-  constructor(x, y, container) {
-    this.x = x;
-    this.y = y;
+  constructor() {
+    this.element = this.createElement();
+  }
 
-    // Création de l'élément DOM pour le bloc
-    this.element = document.createElement("div");
-    this.element.style.position = "absolute";
-    this.element.style.width = "50px";
-    this.element.style.height = "20px";
-    this.element.style.backgroundColor = "green"; // Personnalise la couleur
-    this.element.style.left = `${this.x}px`;
-    this.element.style.top = `${this.y}px ` / 2;
+  createElement() {
+    const block = document.createElement('div');
+    block.classList.add('block');
+    document.getElementById('block-container').appendChild(block)
 
-    // Ajout du bloc au conteneur
-    container.appendChild(this.element);
+    return block
   }
 }
