@@ -21,6 +21,15 @@ export class Collision {
         blocks.forEach((block) => {
           if (this.isCollision(projectile, block)) {
             projectile.remove();
+            block.health -= 1;
+            this.updateHealthDisplay();
+            console.log(`Bloc touché ! Santé restante : ${block.health}`);
+
+            if (block.health <= 0) {
+              if (block.element.remove());
+              blocks.splice(block, 1);
+              console.log("Block détruit !");
+            }
             console.log(block.element);
           }
         });
@@ -123,14 +132,22 @@ export class Collision {
       let hearts = "❤️".repeat(this.state.player.health);
       healthBoard.textContent = `Vie : ${hearts}`;
     }
+    const healthBoardBlock = document.getElementById("health-board-blocks");
+    if (healthBoardBlock) {
+      let heartsBlock = this.state.blocks
+        .map((block) => "❤️".repeat(block.health))
+        .join(" ");
+
+      healthBoardBlock.textContent = `blocks : ${heartsBlock}`;
+    }
   }
 
   endGame() {
-    // alert("💀 Game Over ! Vous avez perdu.");
+    alert("💀 Game Over ! Vous avez perdu.");
     window.location.reload();
   }
   winGame() {
-    // alert("🎉 Félicitations ! Vous avez gagné !");
+    alert("🎉 Félicitations ! Vous avez gagné !");
     window.location.reload(); // Recharge la page pour recommencer
   }
 }

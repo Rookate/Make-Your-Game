@@ -90,7 +90,7 @@ body {
   position: absolute;
   top: 10px;
   left: 20px;
-  font-size: 24px;
+  font-size: 15px;
   color: rgb(255, 251, 8);
   background: rgba(0, 0, 0, 0.5);
   padding: 10px;
@@ -100,8 +100,21 @@ body {
 #health-board {
   position: absolute;
   top: 10px;
-  right: 20px;
-  font-size: 24px;
+  right: 15px;
+  font-size: 15px;
+  color: rgb(255, 251, 8);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border: 1px solid rgb(255, 251, 8);
+}
+#health-board-blocks {
+  position: absolute;
+  top: 10px;
+  right: 25%;
+  left: 25%;
+  height: 20px;
+  width: 400px;
+  font-size: 15px;
   color: rgb(255, 251, 8);
   background: rgba(0, 0, 0, 0.5);
   padding: 10px;

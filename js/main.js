@@ -14,8 +14,8 @@ class Game {
       blocks: [],
       projectiles: {
         enemies: [],
-        player: []
-      }
+        player: [],
+      },
     };
     this.collisionManager = new Collision(this.state);
 
@@ -24,7 +24,7 @@ class Game {
 
   init() {
     this.update();
-    this.initializePlayer();
+    this.initializePlayerAndBlock();
     this.generateEnemies();
     this.startEnemiesShooting();
     this.createBlocks();
@@ -45,23 +45,26 @@ class Game {
 
     for (let i = 0; i < numBlocks; i++) {
       const block = new Block(); // Ajoute chaque bloc au conteneur
+      block.health = 3;
       this.state.blocks.push(block);
     }
   }
 
-  initializePlayer() {
+  initializePlayerAndBlock() {
     const startX = this.state.container.offsetWidth / 2;
     const startY = this.state.container.offsetHeight - 40;
 
     this.state.player = new Player(this.state.container, startX, startY);
 
-    // ✅ Initialise la vie du joueur à 3 points
+    // ✅ Initialise la vie du joueur à 6 points et le block 3 points
     this.state.player.health = 6;
+    this.state.blocks.health = 3;
 
     // ✅ Met à jour l'affichage dès le début
     this.collisionManager.updateHealthDisplay();
 
     console.log("🛡️ Vie du joueur initialisée :", this.state.player.health);
+    console.log("🛡️ Vie des block initialisée :", this.state.blocks.health);
   }
 
   update() {
@@ -86,10 +89,14 @@ class Game {
 
   moveProjectiles() {
     // Déplacer les tirs ennemis
-    this.state.projectiles.enemies = this.state.projectiles.enemies.filter(projectile => projectile.move());
+    this.state.projectiles.enemies = this.state.projectiles.enemies.filter(
+      (projectile) => projectile.move()
+    );
 
     // Déplacer les tirs du joueur
-    this.state.projectiles.player = this.state.projectiles.player.filter(projectile => projectile.move());
+    this.state.projectiles.player = this.state.projectiles.player.filter(
+      (projectile) => projectile.move()
+    );
   }
 
   generateEnemies() {
@@ -113,12 +120,12 @@ class Game {
       if (this.state.enemies.length === 0) return;
       const randomEnemy =
         this.state.enemies[
-        Math.floor(Math.random() * this.state.enemies.length)
+          Math.floor(Math.random() * this.state.enemies.length)
         ];
       randomEnemy.shoot();
     };
 
-    this.enemyShootingInterval = setInterval(shootRandomEnemy, 3000);
+    this.enemyShootingInterval = setInterval(shootRandomEnemy, 1000);
   }
 
   gamePause() {
