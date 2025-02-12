@@ -19,9 +19,8 @@ class Game {
         player: []
       }
     };
-    console.log("block - container");
+    // console.log(this.state.containerBlock);
     this.collisionManager = new Collision(this.state);
-    // this.blockFunction = new Block(this.state);
 
     window.game = this.state;
   }
@@ -45,16 +44,25 @@ class Game {
     });
   }
   createBlocks() {
-    for (let i = 0; i < 4; i++) {
-      const block = new Block(150 + i * 150, 450, this.state.containerBlock);
+    const blockWidth = 50; // Largeur de chaque bloc
+    const numBlocks = 4; // Nombre de blocs
+    const spacing = 20; // Espacement entre les blocs
 
+    const totalWidth = numBlocks * blockWidth + (numBlocks - 1) * spacing; // Largeur totale des blocs avec espacement
+    const startX = (this.state.container.offsetWidth - totalWidth) / 2; // Point de départ pour centrer
+
+    const yPosition = this.state.container.offsetHeight; // Place les blocs à 100px du bas
+
+    for (let i = 0; i < numBlocks; i++) {
+      const x = startX + i * (blockWidth + spacing); // Position horizontale de chaque bloc
+      const block = new Block(x, yPosition, this.state.containerBlock); // Ajoute chaque bloc au conteneur
       this.state.blocks.push(block);
     }
   }
 
   initializePlayer() {
     const startX = this.state.container.offsetWidth / 2;
-    const startY = this.state.container.offsetHeight - 50;
+    const startY = this.state.container.offsetHeight - 100;
 
     this.state.player = new Player(this.state.container, startX, startY);
 
