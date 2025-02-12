@@ -4,10 +4,10 @@ export class Block {
   }
 
   createElement() {
-    const block = document.createElement('div');
-    block.classList.add('block');
-    document.getElementById('block-container').appendChild(block)
+    const block = document.createElement("div");
+    block.classList.add("block");
+    document.getElementById("block-container").appendChild(block);
 
-    return block
+    return block;
   }
 }

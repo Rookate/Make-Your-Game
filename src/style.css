@@ -147,15 +147,19 @@ button#continue {
 
 #block-container {
   position: absolute;
+  grid-template-columns: repeat(4, 60px);
   bottom: 15%;
   border: 2px solid #000;
-  display: flex;
+  display: grid;
   justify-content: space-evenly;
   width: 100%;
 }
 
 .block {
-  width: 50px;
+  width: 60px;
   height: 20px;
-  background-color: green;
+  background-color: #ff5722;
+  position: relative;
+  border: 2px solid #fff;
+  box-sizing: border-box;
 }
