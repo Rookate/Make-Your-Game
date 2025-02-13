@@ -95,9 +95,10 @@ export class Collision {
           // ✅ Mettre à jour l'affichage du score
           this.updateScoreDisplay();
           console.log(`💥 Ennemi détruit ! Score: ${this.state.score}`);
+          console.log("enemies array :", this.state.enemies)
           // ✅ Vérifier s'il reste des ennemis
           if (this.state.enemies.length === 0) {
-            this.state.winGame(); // 🎉 Si plus d'ennemis, on gagne !
+            this.state.winGame = true;
           }
         }
       });

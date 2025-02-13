@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Space Invaders - JS</title>
-    <link rel="stylesheet" href="./style.css" />
-  </head>
 
-  <body>
-    <div id="score-board">Score: 0</div>
-    <div id="health-board">Vie : ❤️❤️❤️</div>
-    <div id="health-board-blocks">Blocks : ❤️❤️❤️ ❤️❤️❤️ ❤️❤️❤️</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Space Invaders - JS</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
 
-    <div id="pause">
-      <button id="continue">play</button>
-    </div>
-    <div id="gameover">
-      <h1>💀 Game Over !</h1>
-      <button onclick="window.location.reload()">Recommencer</button>
-    </div>
-    
-    <div id="wingame">
-      <h1>🎉 Félicitations ! Vous avez gagné !</h1>
-      <button onclick="window.location.reload()">Recommencer</button>
-    </div>
+<body>
+  <div id="score-board">Score: 0</div>
+  <div id="health-board">Vie : ❤️❤️❤️</div>
+  <div id="health-board-blocks">Blocks : ❤️❤️❤️ ❤️❤️❤️ ❤️❤️❤️</div>
 
-    <div id="game-container">
-      
-      <div id="block-container"></div>
-      
-      
+  <div id="pause">
+    <button id="continue">play</button>
+  </div>
+  <div id="gameover">
+    <h1>💀 Game Over !</h1>
+    <button onclick="window.location.reload()">Recommencer</button>
+  </div>
 
-      <div id="enemy-container"></div>
-      <div id="player"></div>
-    </div>
+  <div id="wingame">
+    <h1>🎉 Félicitations ! Vous avez gagné !</h1>
+    <button onclick="window.location.reload()">Recommencer</button>
+  </div>
 
-    <script type="module" src="../js/main.js"></script>
-  </body>
+  <div id="game-container">
+
+    <div id="block-container"></div>
+
+    <div id="enemy-container"></div>
+    <div id="player"></div>
+  </div>
+
+  <div id="timer"></div>
+
+  <script type="module" src="../js/main.js"></script>
+</body>
+
 </html>

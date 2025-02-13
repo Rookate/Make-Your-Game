@@ -43,6 +43,7 @@ export class Player {
 
   // Fonction pour tirer
   shoot() {
+    if (window.game.pause || window.game.gameOver || window.game.winGame) return;
     // Créer une balle à la position du joueur (juste au-dessus du joueur)
     const bullet = new Bullet(this.container, this.x, this.y); // Position ajustée pour être juste au-dessus du joueur
     window.gameState.projectiles.player.push(bullet);
@@ -53,14 +54,14 @@ export class Player {
     const throttledShootProjectile = throttle(() => this.shoot(), 300);
 
     document.addEventListener("keydown", (event) => {
-      if (window.game.pause) return;
+      if (window.game.pause || window.game.gameOver || window.game.winGame) return;
       if (event.key === "ArrowLeft") this.keys.left = true;
       if (event.key === "ArrowRight") this.keys.right = true;
       if (event.key === " ") throttledShootProjectile(); // Appuyer sur espace pour tirer
     });
 
     document.addEventListener("keyup", (event) => {
-      if (window.game.pause) return;
+      if (window.game.pause || window.game.gameOver || window.game.winGame) return;
       if (event.key === "ArrowLeft") this.keys.left = false;
       if (event.key === "ArrowRight") this.keys.right = false;
     });

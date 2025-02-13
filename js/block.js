@@ -10,6 +10,8 @@ export class Block {
     const block = document.createElement("div");
     block.classList.add("block");
     this.x = (container.offsetWidth / 4) * this.x;
+    console.log("xxxxxxx", this.x)
+    console.log({ container: container.offsetWidth, x: this.x })
     block.style.left = `${this.x}px`;
     document.getElementById("block-container").appendChild(block);
     return block;
