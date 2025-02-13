@@ -21,7 +21,7 @@ body {
 
 /* Conteneur du jeu */
 #game-container {
-  position: absolute;
+  position: relative;
   background-color: rgb(0, 0, 0);
   border: 3px solid rgb(8, 0, 82);
   border-radius: 8px;
@@ -146,20 +146,65 @@ button#continue {
 }
 
 #block-container {
-  position: absolute;
+  position: relative;
   grid-template-columns: repeat(4, 60px);
-  bottom: 15%;
+  top: 80%;
   border: 2px solid #000;
   display: grid;
-  justify-content: space-evenly;
   width: 100%;
+  padding-left: 10%;
 }
 
 .block {
   width: 60px;
   height: 20px;
   background-color: #ff5722;
-  position: relative;
+  position: absolute;
   border: 2px solid #fff;
   box-sizing: border-box;
+}
+#gameover, #wingame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: none; /* Assurez-vous qu'ils ne s'affichent pas au démarrage */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  z-index: 9999;
+}
+
+
+#gameover h1, #wingame h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+#gameover button, #wingame button {
+  padding: 10px 20px;
+  font-size: 20px;
+  color: white;
+  background-color: #ff0000; /* Rouge vif pour le bouton */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#gameover button:hover, #wingame button:hover {
+  background-color: #cc0000; /* Rouge foncé au survol */
+}
+
+#wingame button {
+  background-color: #00b300; /* Vert vif pour le bouton de victoire */
+}
+
+#wingame button:hover {
+  background-color: #009900; /* Vert foncé au survol */
 }

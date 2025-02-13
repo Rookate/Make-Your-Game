@@ -10,15 +10,26 @@
   <body>
     <div id="score-board">Score: 0</div>
     <div id="health-board">Vie : ❤️❤️❤️</div>
-    <div id="health-board-blocks"></div>
-
+    <div id="health-board-blocks">Blocks : ❤️❤️❤️ ❤️❤️❤️ ❤️❤️❤️</div>
 
     <div id="pause">
       <button id="continue">play</button>
     </div>
+    <div id="gameover">
+      <h1>💀 Game Over !</h1>
+      <button onclick="window.location.reload()">Recommencer</button>
+    </div>
+    
+    <div id="wingame">
+      <h1>🎉 Félicitations ! Vous avez gagné !</h1>
+      <button onclick="window.location.reload()">Recommencer</button>
+    </div>
 
     <div id="game-container">
+      
       <div id="block-container"></div>
+      
+      
 
       <div id="enemy-container"></div>
       <div id="player"></div>

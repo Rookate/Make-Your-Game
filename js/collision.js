@@ -22,7 +22,7 @@ export class Collision {
         const projectile = projectileList[pIndex];
 
         // Vérifier la collision avec chaque bloc
-        for (let bIndex = blocks.length - 1; bIndex >= 0; bIndex--) {
+        for (let bIndex = 0; bIndex < blocks.length; bIndex++) {
           const block = blocks[bIndex];
 
           if (this.isCollision(projectile, block)) {
@@ -35,9 +35,12 @@ export class Collision {
 
             // Si la santé du bloc tombe à 0, le supprimer
             if (block.health <= 0) {
-              if (block.element) block.element.remove(); // Supprimer l'élément du DOM
-              blocks.splice(bIndex, 1); // Retirer le bloc de la liste
-              console.log("Bloc détruit !");
+              console.log(block, blocks);
+
+              // if (blocks.element) block.element.remove(); // Supprimer l'élément du DOM
+              blocks.slice(bIndex, 1); // Retirer le bloc de la liste
+              console.log("Bloc détruit !", block);
+              block.element.remove();
             }
 
             // Supprimer le projectile après la collision
@@ -54,19 +57,21 @@ export class Collision {
     checkCollision(projectiles.enemies);
     checkCollision(projectiles.player);
   }
-
+  remove() {
+    this.element.remove();
+  }
   collisionEnemiesPlayer() {
     const enemies = this.state.enemies;
     enemies.forEach((enemy) => {
       if (this.isCollision(enemy, window.game.player)) {
-        // this.endGame();
+        this.gameOver();
       }
     });
   }
   collisionEnd() {
     this.state.enemies.forEach((enemy) => {
       if (enemy.y >= this.state.container.offsetHeight) {
-        this.endGame();
+        this.gameOver();
       }
     });
   }
@@ -92,7 +97,7 @@ export class Collision {
           console.log(`💥 Ennemi détruit ! Score: ${this.state.score}`);
           // ✅ Vérifier s'il reste des ennemis
           if (this.state.enemies.length === 0) {
-            this.winGame(); // 🎉 Si plus d'ennemis, on gagne !
+            this.state.winGame(); // 🎉 Si plus d'ennemis, on gagne !
           }
         }
       });
@@ -116,7 +121,7 @@ export class Collision {
 
         if (player.health <= 0) {
           console.log("💀 Game Over !");
-          // this.endGame();
+          this.state.gameOver = true;
         }
       }
     });
@@ -161,8 +166,8 @@ export class Collision {
   //   // alert("💀 Game Over ! Vous avez perdu.");
   //   window.location.reload();
   // }
-  winGame() {
-    // alert("🎉 Félicitations ! Vous avez gagné !");
-    window.location.reload(); // Recharge la page pour recommencer
-  }
+  // winGame() {
+  //   // alert("🎉 Félicitations ! Vous avez gagné !");
+  //   window.location.reload(); // Recharge la page pour recommencer
+  // }
 }

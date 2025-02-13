@@ -11,6 +11,8 @@ class Game {
       enemies: [],
       direction: 1,
       pause: false,
+      gameOver: false,
+      winGame: false,
       blocks: [],
       projectiles: {
         enemies: [],
@@ -35,7 +37,8 @@ class Game {
         this.gamePause();
       }
     });
-
+    document.getElementById("gameover");
+    document.getElementById("wingame");
     document.getElementById("continue").addEventListener("click", () => {
       this.gamePause();
     });
@@ -44,8 +47,11 @@ class Game {
     const numBlocks = 4; // Nombre de blocs
 
     for (let i = 0; i < numBlocks; i++) {
-      const block = new Block(); // Ajoute chaque bloc au conteneur
+      const block = new Block(i); // Ajoute chaque bloc au conteneur
+
       block.health = 3;
+      block.id = i;
+      block.element.id = i;
       this.state.blocks.push(block);
     }
   }
@@ -57,7 +63,7 @@ class Game {
     this.state.player = new Player(this.state.container, startX, startY);
 
     // ✅ Initialise la vie du joueur à 6 points et le block 3 points
-    this.state.player.health = 6;
+    this.state.player.health = 1;
     this.state.blocks.health = 3;
 
     // ✅ Met à jour l'affichage dès le début
@@ -68,6 +74,7 @@ class Game {
   }
 
   update() {
+    if (this.state.gameOver) this.gameOver();
     this.moveProjectiles();
     this.moveEnemies();
     this.collisionManager.checkCollisions();
@@ -143,10 +150,25 @@ class Game {
       this.update();
     }
   }
+  gameOver() {
+    const menugameover = document.getElementById("gameover");
+    menugameover.style.display = "flex"; // Affiche l'écran Game Over
+    cancelAnimationFrame(this.gameLoop); // Arrête la boucle du jeu
+    clearInterval(this.enemyShootingInterval);
+  }
+
+  winGame() {
+    const menuwin = document.getElementById("wingame");
+    if (!this.state.winGame) {
+      this.state.winGame = true;
+      menuwin.style.display = "flex"; // Affiche l'écran de victoire
+      cancelAnimationFrame(this.gameLoop);
+      clearInterval(this.enemyShootingInterval);
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const game = new Game();
-
   game.init();
 });
