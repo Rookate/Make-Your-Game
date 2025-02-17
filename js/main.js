@@ -32,6 +32,7 @@ class Game {
     this.createBlocks();
     this.setTimer()
     window.gameState = this.state;
+    this.collisionManager.updateHealthDisplay();
 
     document.addEventListener("keydown", (e) => {
       if (this.state.gameOver) return;
@@ -51,7 +52,7 @@ class Game {
     for (let i = 0; i < numBlocks; i++) {
       const block = new Block(i); // Ajoute chaque bloc au conteneur
 
-      block.health = 1;
+      block.health = 3;
       block.id = i;
       block.element.id = i;
       this.state.blocks.push(block);
@@ -69,9 +70,6 @@ class Game {
 
     // ✅ Met à jour l'affichage dès le début
     this.collisionManager.updateHealthDisplay();
-
-    console.log("🛡️ Vie du joueur initialisée :", this.state.player.health);
-    console.log("🛡️ Vie des block initialisée :", this.state.blocks.health);
   }
 
   update() {
