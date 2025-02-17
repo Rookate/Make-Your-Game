@@ -10,50 +10,49 @@ export class SequenceCinematic {
     async playSequence() {
         const cinematic = this.cinematic;
 
-        // cinematic.createEvent('titleText', CinematicEventType.SCENE, {
-        //     duration: 3000,
-        //     text: 'Welcome to the game',
-        //     className: 'cut-scene',
-        //     planet: "css/Lava.png"
-        // });
-        // cinematic.createEvent('titleText3', CinematicEventType.SCENE, {
-        //     duration: 3000,
-        //     text: 'The invader come and destroy our planet',
-        //     className: 'cut-scene',
-        //     planet: "css/Terran.png"
-        // });
-        // cinematic.createEvent('titleText4', CinematicEventType.SCENE, {
-        //     duration: 4000,
-        //     text: 'You are the last chance',
-        //     className: 'cut-scene',
-        //     planet: "css/Ice.png"
-        // });
-        // cinematic.createEvent('playerAppear', CinematicEventType.PLAYER, {
-        //     duration: 5000,
-        //     className: 'cutscene',
-        //     text: 'Space June 2079 9pm',
-        //     playerImage: 'css/pngkey.com-galaga-ship-png-1472422.png',
-        //     backgroundImage: "css/HD-wallpaper-artistic-pixel-art-space-moon.jpg"
-        // });
-        // cinematic.createEvent('zoomPlayer', CinematicEventType.PLAYER, {
-        //     duration: 4000,
-        //     className: 'cutscene',
-        //     text: 'Leader to falcon I approach the targets',
-        //     backgroundImage: 'css/471a0d1d9af520c394e02a09120fc7c1.gif'
-        // });
-        // cinematic.createEvent('zoomPlayer2', CinematicEventType.PLAYER, {
-        //     duration: 5000,
-        //     className: 'cutscene',
-        //     text: 'Ok leader you can engage',
-        //     backgroundImage: 'css/f2162a69274b7cb1f9330c4580f28723.gif'
-        // });
-        // cinematic.createEvent('zoomPlayer3', CinematicEventType.PLAYER, {
-        //     duration: 2000,
-        //     className: 'cutscene',
-        //     text: 'Prepare to fight !',
-        //     backgroundImage: 'css/471a0d1d9af520c394e02a09120fc7c1.gif'
-        // });
-        //,
+        cinematic.createEvent('titleText', CinematicEventType.SCENE, {
+            duration: 3000,
+            text: 'Welcome to the game',
+            className: 'cut-scene',
+            planet: "css/Lava.png"
+        });
+        cinematic.createEvent('titleText3', CinematicEventType.SCENE, {
+            duration: 3000,
+            text: 'The invader come and destroy our planet',
+            className: 'cut-scene',
+            planet: "css/Terran.png"
+        });
+        cinematic.createEvent('titleText4', CinematicEventType.SCENE, {
+            duration: 4000,
+            text: 'You are the last chance',
+            className: 'cut-scene',
+            planet: "css/Ice.png"
+        });
+        cinematic.createEvent('playerAppear', CinematicEventType.PLAYER, {
+            duration: 5000,
+            className: 'cutscene',
+            text: 'Space June 2079 9pm',
+            playerImage: 'css/pngkey.com-galaga-ship-png-1472422.png',
+            backgroundImage: "css/HD-wallpaper-artistic-pixel-art-space-moon.jpg"
+        });
+        cinematic.createEvent('zoomPlayer', CinematicEventType.PLAYER, {
+            duration: 4000,
+            className: 'cutscene',
+            text: 'Leader to falcon I approach the targets',
+            backgroundImage: 'css/471a0d1d9af520c394e02a09120fc7c1.gif'
+        });
+        cinematic.createEvent('zoomPlayer2', CinematicEventType.PLAYER, {
+            duration: 5000,
+            className: 'cutscene',
+            text: 'Ok leader you can engage',
+            backgroundImage: 'css/f2162a69274b7cb1f9330c4580f28723.gif'
+        });
+        cinematic.createEvent('zoomPlayer3', CinematicEventType.PLAYER, {
+            duration: 2000,
+            className: 'cutscene',
+            text: 'Prepare to fight !',
+            backgroundImage: 'css/471a0d1d9af520c394e02a09120fc7c1.gif'
+        });
 
         try {
             //   await transition.play('levelStart');

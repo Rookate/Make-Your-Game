@@ -317,6 +317,7 @@ export class GameStateManager {
         this.state.projectiles.enemies = [];
         this.state.enemies = [];
         this.state.activeBonuses = [];
+        this.state.score = 0
 
         // Suppression du joueur du DOM
         if (this.state.player && this.state.player.element) {
