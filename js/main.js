@@ -184,7 +184,7 @@ class Game {
 
     this.timerInterval = setInterval(() => {
       if (this.state.gameOver) {
-        clearInterval(this.timerInterval); // Arrête le timer si le jeu est fini
+        clearInterval(this.timerInterval);
         return;
       }
 

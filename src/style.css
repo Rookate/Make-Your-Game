@@ -125,6 +125,8 @@ body {
 
 #pause {
   display: none;
+  flex-direction: column;
+  gap: 15px;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.692);
   height: 20%;
@@ -137,14 +139,15 @@ body {
   justify-content: center;
 }
 
-button#continue {
+#pause button {
   background-color: rgb(255, 251, 8);
   border-radius: 20px;
   height: 30px;
-  width: auto;
+  width: 70%;
   font-size: 18px;
   border: none;
   color: black;
+  cursor: pointer;
 }
 
 #block-container {
