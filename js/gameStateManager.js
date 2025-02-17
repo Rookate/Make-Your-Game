@@ -528,6 +528,7 @@ export class GameStateManager {
         updateWaveDisplay();
 
         this.state.enemySpeed = GAME_CONFIG.ENEMIES.SPEED
+        this.state.projectiles.enemies.forEach(proj => proj.remove())
 
         if (this.state.wave >= GAME_CONFIG.ENEMIES.SPECIAL_START_WAVE) {
             GAME_CONFIG.ENEMIES.HEALTH = GAME_CONFIG.ENEMIES.SPECIAL_HEALTH;

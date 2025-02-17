@@ -100,7 +100,7 @@ export class SequenceCinematic {
             backgroundImage: 'css/885542.png'
         });
 
-        if (wave % 5 === 0) {
+        if (wave === 2) {
             cinematic.createEvent(`waveSpecial${wave}`, CinematicEventType.PLAYER, {
                 duration: 3000,
                 text: `Special enemies appear every 5 waves!`,
