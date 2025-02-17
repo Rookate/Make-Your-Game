@@ -181,13 +181,10 @@ class Game {
     const timerElement = document.getElementById("timer");
 
     this.timerInterval = setInterval(() => {
-      if (this.state.gameOver) {
-        clearInterval(this.timerInterval);
-        return;
+      if (!this.state.gameOver && !this.state.pause) {
+        seconds++;
+        timerElement.textContent = `${seconds} secondes`;
       }
-
-      seconds++;
-      timerElement.textContent = `${seconds} secondes`;
     }, 1000);
   }
 
