@@ -1,2 +1,2 @@
 # Make-Your-Game
-This is a video game like Space Invader
+This is a video game like Space Invaders.
