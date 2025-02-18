@@ -152,7 +152,6 @@
     border-radius: 6px;
     background-color: rgba(60, 60, 60, 0.4);
     border: none;
-    position: relative;
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -670,4 +669,23 @@ body {
     to {
         left: 100%;
     }
+}
+
+#loadMore {
+    padding: 15px 30px;
+    background-color: rgba(60, 60, 60, 0.4);
+    border: none;
+    right: 10px;
+    bottom: 10px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 35px 13px rgb(34, 48, 246);
+}
+
+#leaderBoard-btn {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
 }

@@ -1,12 +1,12 @@
 import { API_SCORE } from './api/api.js';
-import { CinematicEventType, CinematicManager } from './cinematicManager.js';
+import { CinematicManager } from './cinematicManager.js';
 import { CollisionManager } from './collisionManager.js';
 import { Enemy, KamikazeEnemy } from './ennemyClass.js';
 import { GAME_CONFIG } from './game-constants.js';
 import { createLeaderBoard } from './leaderBoard.js';
 import { Player } from './player.js';
 import { SequenceCinematic } from './sequenceCinematic.js';
-import { displayWaveMessage, updateLivesDisplay, updateScoreDisplay, updateWaveDisplay } from './ui.js';
+import { updateLivesDisplay, updateScoreDisplay, updateWaveDisplay } from './ui.js';
 import { throttle } from './utils.js';
 
 export class GameStateManager {
@@ -32,6 +32,8 @@ export class GameStateManager {
             enemies: [],
             enemySpeed: GAME_CONFIG.ENEMIES.SPEED,
             enemiesDirection: 1,
+
+            currentIndex: 0,
 
             player: null // Le joueur sera initialisé plus tard
         };
@@ -87,6 +89,7 @@ export class GameStateManager {
             'menu-button': () => this.showMainMenu(),
             'leaderBoardButton': () => this.leaderBoard(),
             'homeButton': () => this.showMainMenu(),
+            'loadMore': () => this.loadMore(),
         };
 
         Object.entries(controls).forEach(([id, handler]) => {
@@ -542,10 +545,15 @@ export class GameStateManager {
     async leaderBoard() {
         this.hideAllScreens();
         document.getElementById('player-score-list').innerHTML = ''
+        this.state.currentIndex = 0
         const scores = await this.api.getScore()
-        const sortedScore = scores.sort((a, b) => b.score - a.score)
-        sortedScore.forEach(score => createLeaderBoard(score))
+        scores.forEach(score => createLeaderBoard(score))
         this.ui.leaderBoard.classList.remove('hidden')
+    }
+
+    async loadMore() {
+        const scores = await this.api.getScore()
+        scores.forEach(score => (createLeaderBoard(score)))
     }
 
     async postScore() {

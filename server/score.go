@@ -25,19 +25,13 @@ func score(player *Player) error {
 	return nil
 }
 
-func getScore() ([]Player, error) {
-	// Prépare la requête
-	stmt, err := Db.Prepare("SELECT username, score, date FROM players")
+func getScore(currentIndex StructScore) ([]Player, error) {
+	query := "SELECT username, score, date FROM players ORDER BY score DESC LIMIT 10 OFFSET $1"
+	rows, err := Db.Query(query, currentIndex.CurrentIndex)
 	if err != nil {
-		return nil, fmt.Errorf("error preparing query: %v", err)
+		return nil, fmt.Errorf("error query db : %v", err)
 	}
-	defer stmt.Close()
 
-	// Exécute la requête et récupère les résultats
-	rows, err := stmt.Query() // Utilise Query ici pour récupérer plusieurs lignes
-	if err != nil {
-		return nil, fmt.Errorf("error executing db query: %v", err)
-	}
 	defer rows.Close()
 
 	// Crée une slice pour stocker les joueurs
